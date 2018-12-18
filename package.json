@@ -1,0 +1,25 @@
+{
+  "name": "maishu-ui-toolkit",
+  "version": "1.0.1",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ansiboy/ui-toolkit.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ansiboy/ui-toolkit/issues"
+  },
+  "homepage": "https://github.com/ansiboy/ui-toolkit#readme",
+  "devDependencies": {
+    "grunt": "^1.0.3",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-shell": "^2.1.0",
+    "load-grunt-tasks": "^4.0.0"
+  }
+}
