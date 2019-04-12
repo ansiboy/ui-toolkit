@@ -1,71 +1,59 @@
-import { errors } from "./errors";
-
-
-function dialogContainer(): HTMLElement {
-    return dialogConfig.dialogContainer || document.body;
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const errors_1 = require("./errors");
+function dialogContainer() {
+    return exports.dialogConfig.dialogContainer || document.body;
 }
-
-export let dialogConfig = {
-    dialogContainer: null as HTMLElement
-}
-
-function addClassName(element: HTMLElement, className: string) {
+exports.dialogConfig = {
+    dialogContainer: null
+};
+function addClassName(element, className) {
     console.assert(className != null, 'class is null');
     let c1 = (element.className || '').split(/\s+/);
     let c2 = className.split(/\s+/);
     var itemsToAdd = c2.filter(o => c1.indexOf(o) < 0);
     c1.push(...itemsToAdd);
-
     element.className = c1.join(' ');
 }
-
-
-function removeClassName(element: HTMLElement, className: string) {
+function removeClassName(element, className) {
     console.assert(className != null, 'class is null');
     let c1 = (element.className || '').split(/\s+/);
     let c2 = className.split(/\s+/);
     var itemsRemain = c1.filter(o => c2.indexOf(o) < 0);
-
     element.className = itemsRemain.join(' ');
 }
-
-let dialogElements = new Array<HTMLElement>();
-let dialogCallbacks = new Array<Function>();
+let dialogElements = new Array();
+let dialogCallbacks = new Array();
 /** 弹窗
  * @param element bootstrap 的 modal 元素
  */
-export function showDialog(element: HTMLElement, callback?: (button: HTMLButtonElement) => void) {
-
+function showDialog(element, callback) {
     removeClassName(element, 'out');
     element.style.display = 'block';
     setTimeout(() => {
         addClassName(element, 'modal fade in');
     }, 100);
-
     let dialogIndex = dialogElements.indexOf(element);
     if (dialogIndex < 0) {
         dialogElements.push(element);
         dialogIndex = dialogElements.length - 1;
-
         let closeButtons = element.querySelectorAll('[data-dismiss="modal"]') || [];
         for (let i = 0; i < closeButtons.length; i++) {
-            (closeButtons[i] as HTMLElement).onclick = () => hideDialog(element);
+            closeButtons[i].onclick = () => hideDialog(element);
         }
-
         let allButtons = element.querySelectorAll('button');
         for (let i = 0; i < allButtons.length; i++) {
             allButtons.item(i).addEventListener('click', function (event) {
                 let callback = dialogCallbacks[dialogIndex];
                 if (callback) {
-                    callback(event.currentTarget as HTMLButtonElement);
+                    callback(event.currentTarget);
                 }
-            })
+            });
         }
     }
-
     dialogCallbacks[dialogIndex] = callback;
     element.tabIndex = 1;
-    var firstField: HTMLElement = element.querySelector('input:not([type]),input:not([readonly])[type="text"],input:not([readonly])[type="password"]');
+    var firstField = element.querySelector('input:not([type]),input:not([readonly])[type="text"],input:not([readonly])[type="password"]');
     if (firstField) {
         firstField.focus();
     }
@@ -74,13 +62,11 @@ export function showDialog(element: HTMLElement, callback?: (button: HTMLButtonE
     }
     element.addEventListener('keydown', on_keydown);
 }
-
-export function hideDialog(element: HTMLElement) {
-
+exports.showDialog = showDialog;
+function hideDialog(element) {
     removeClassName(element, 'in');
     addClassName(element, 'modal fade out');
     element.removeEventListener('keydown', on_keydown);
-
     return new Promise((reslove, reject) => {
         setTimeout(() => {
             element.style.removeProperty('display');
@@ -88,38 +74,31 @@ export function hideDialog(element: HTMLElement) {
         }, 1000);
     });
 }
-
-function on_keydown(event: KeyboardEvent) {
+exports.hideDialog = hideDialog;
+function on_keydown(event) {
     const KEY_CODE_ESC = 27;
     if (event.keyCode == KEY_CODE_ESC) {
-        let dialogElement = findDialogElement(event.target as HTMLElement);
+        let dialogElement = findDialogElement(event.target);
         console.assert(dialogElement != null);
         if (dialogElement.getAttribute('data-keyboard') == 'false')
-            return
-
+            return;
         hideDialog(dialogElement);
     }
 }
-
-function findDialogElement(e: HTMLElement) {
+function findDialogElement(e) {
     while (e) {
         let names = e.className.split(' ').filter(o => o);
         if (names.indexOf('modal') >= 0)
             return e;
-
         e = e.parentElement;
     }
 }
-
-
-
-export function alert(args: string | { title: string, message: string }) {
+function alert(args) {
     let element = document.createElement('div');
     dialogContainer().appendChild(element);
     if (typeof args == 'string') {
-        args = { title: '&nbsp;', message: args }
+        args = { title: '&nbsp;', message: args };
     }
-
     element.innerHTML = `
             <div class="modal-dialog">
                 
@@ -148,31 +127,21 @@ export function alert(args: string | { title: string, message: string }) {
     // var dialog = new Dialog(element);
     // dialog.show();
     showDialog(element);
-
     let titleElement = element.querySelector('.modal-title');
-
-
     let modalFooter = element.querySelector('.modal-footer');
-    let cancelButton = modalFooter.querySelector('[name="cancel"]') as HTMLButtonElement;
-    let okButton = modalFooter.querySelector('[name="ok"]') as HTMLButtonElement;
-    okButton.onclick = () => hideDialog(element);//dialog.hide()
-
+    let cancelButton = modalFooter.querySelector('[name="cancel"]');
+    let okButton = modalFooter.querySelector('[name="ok"]');
+    okButton.onclick = () => hideDialog(element); //dialog.hide()
 }
-
-export function confirm(args: {
-    title?: string, message: string, cancle?: () => Promise<any>,
-    confirm: (event: Event) => Promise<any>,
-    container?: HTMLElement,
-    confirmText?: string,
-    cancelText?: string
-}) {
-    let title: string;
-    let message: string;
+exports.alert = alert;
+function confirm(args) {
+    let title;
+    let message;
     let execute = args.confirm;
     let cancel = args.cancle || (() => Promise.resolve());
     let container = args.container || document.body;
-    let confirmText = args.confirmText || '确定'
-    let cancelText = args.cancelText || '取消'
+    let confirmText = args.confirmText || '确定';
+    let cancelText = args.cancelText || '取消';
     if (typeof args == 'string') {
         message = args;
     }
@@ -180,14 +149,11 @@ export function confirm(args: {
         title = args.title;
         message = args.message;
     }
-
-    let confirmDialogElment: HTMLElement;
-
+    let confirmDialogElment;
     confirmDialogElment = document.createElement('div');
     confirmDialogElment.className = 'modal fade';
-    confirmDialogElment.style.marginTop = '20px'
+    confirmDialogElment.style.marginTop = '20px';
     console.assert(dialogContainer != null, 'dialog container is null');
-
     dialogContainer().appendChild(confirmDialogElment);
     confirmDialogElment.innerHTML = `
                     <div class="modal-dialog">
@@ -212,74 +178,61 @@ export function confirm(args: {
                         </div>
                     </div>
                 `;
-
     let modalHeader = confirmDialogElment.querySelector('.modal-header');
     let modalBody = confirmDialogElment.querySelector('.modal-body');
     let modalFooter = confirmDialogElment.querySelector('.modal-footer');
-
-
-
     modalBody.innerHTML = `<h5>${message}</h5>`;
     if (title) {
         modalHeader.querySelector('h4').innerHTML = title;
     }
-
-    let cancelButton = modalFooter.querySelector('[name="cancel"]') as HTMLButtonElement;
-    let okButton = modalFooter.querySelector('[name="ok"]') as HTMLButtonElement;
-    let closeButton = modalHeader.querySelector('.close') as HTMLElement;
-
+    let cancelButton = modalFooter.querySelector('[name="cancel"]');
+    let okButton = modalFooter.querySelector('[name="ok"]');
+    let closeButton = modalHeader.querySelector('.close');
     closeButton.onclick = cancelButton.onclick = function () {
         cancel()
             .then(() => hideDialog(confirmDialogElment))
             .then(() => {
-                confirmDialogElment.remove();
-            })
-    }
-
+            confirmDialogElment.remove();
+        });
+    };
     okButton.onclick = function (event) {
         execute(event)
             .then(() => hideDialog(confirmDialogElment))
             .then(() => {
-                confirmDialogElment.remove();
-            });
-    }
-
+            confirmDialogElment.remove();
+        });
+    };
     showDialog(confirmDialogElment);
 }
-
-type ToastOptions = { title?: string, message: string }
-type ToastMessage = string | HTMLElement | (() => string)
-export let showToastMessage = toast;
-export function toast(options: ToastOptions)
-export function toast(msg: ToastMessage)
-export function toast(obj: ToastOptions | ToastMessage) {
-    if (obj == null) throw errors.argumentNull('obj')
-    let msg: ToastMessage
-    let title: string
+exports.confirm = confirm;
+exports.showToastMessage = toast;
+function toast(obj) {
+    if (obj == null)
+        throw errors_1.errors.argumentNull('obj');
+    let msg;
+    let title;
     if (typeof obj == 'object') {
-        if ((obj as HTMLElement).tagName == null) {
-            let options = obj as ToastOptions
-            msg = options.message
-            title = options.title
+        if (obj.tagName == null) {
+            let options = obj;
+            msg = options.message;
+            title = options.title;
         }
         else {
-            msg = obj as HTMLElement
+            msg = obj;
         }
     }
     else {
-        msg = obj
+        msg = obj;
     }
-
-    let dialogContainer: HTMLElement = dialogConfig.dialogContainer || document.body;
+    let dialogContainer = exports.dialogConfig.dialogContainer || document.body;
     let toastDialogElement = document.createElement('div');
     toastDialogElement.className = 'modal fade in';
     toastDialogElement.style.marginTop = '20px';
     console.assert(dialogContainer != null, 'dialog container is null.');
     dialogContainer.appendChild(toastDialogElement);
-
     let header = title ? `<div class="modal-header">
                                     <h4 class="modal-title">${title}</h4>
-                               </div>`: ''
+                               </div>` : '';
     toastDialogElement.innerHTML = `
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -299,7 +252,6 @@ export function toast(obj: ToastOptions | ToastMessage) {
     }
     else
         modalBody.appendChild(msg);
-
     // let dialog = new Dialog(toastDialogElement);
     // dialog.show();
     showDialog(toastDialogElement);
@@ -309,12 +261,11 @@ export function toast(obj: ToastOptions | ToastMessage) {
         });
     }, 500);
 }
-
-export let showPanel = (function () {
+exports.toast = toast;
+exports.showPanel = (function () {
     let panel = document.createElement('div');
     panel.className = 'mobile-page panel';
     panel.style.display = 'none';
-
     document.body.appendChild(panel);
     panel.innerHTML = `
             <div class="modal">
@@ -335,22 +286,18 @@ export let showPanel = (function () {
             <div class="modal-backdrop in">
             </div>
         `;
-
-    let modal = panel.querySelector('.modal') as HTMLElement;
-    let backdrop = panel.querySelector('.modal-backdrop') as HTMLElement;
-    let header = panel.querySelector('.modal-header') as HTMLElement;
-    let footer = panel.querySelector('.modal-footer') as HTMLElement;
-
-    let body = panel.querySelector(".modal-body") as HTMLElement;
-    let modalDialog = panel.querySelector(".modal-dialog") as HTMLElement;
-
-    let isIOS = navigator.userAgent.indexOf('iPhone') > 0 || navigator.userAgent.indexOf('iPad') > 0
-
+    let modal = panel.querySelector('.modal');
+    let backdrop = panel.querySelector('.modal-backdrop');
+    let header = panel.querySelector('.modal-header');
+    let footer = panel.querySelector('.modal-footer');
+    let body = panel.querySelector(".modal-body");
+    let modalDialog = panel.querySelector(".modal-dialog");
+    let isIOS = navigator.userAgent.indexOf('iPhone') > 0 || navigator.userAgent.indexOf('iPad') > 0;
     //=====================================================================
     // 点击非窗口区域，关窗口。并禁用上级元素的 touch 操作。
     // let panel = this.panel; //this.refs['panel'] as HTMLElement;
     // let modalDialog = this.modalDialog; //this.refs['modalDialog'] as HTMLElement;
-    panel.addEventListener('touchstart', (event: TouchEvent) => {
+    panel.addEventListener('touchstart', (event) => {
         let dialogRect = modalDialog.getBoundingClientRect();
         for (let i = 0; i < event.touches.length; i++) {
             let { clientX } = event.touches[i];
@@ -360,10 +307,9 @@ export let showPanel = (function () {
             }
         }
     });
-
     if (isIOS) {
         panel.addEventListener('touchstart', (event) => {
-            let tagName = (event.target as HTMLElement).tagName;
+            let tagName = event.target.tagName;
             if (tagName == 'BUTTON' || tagName == 'INPUT' || tagName == 'A') {
                 return;
             }
@@ -371,7 +317,6 @@ export let showPanel = (function () {
             event.preventDefault();
         });
     }
-
     function hide() {
         modal.style.removeProperty('transform');
         backdrop.style.opacity = '0';
@@ -379,46 +324,30 @@ export let showPanel = (function () {
             panel.style.display = 'none';
         }, 500);
     }
-
-    return function showPanel(args: {
-        /** render header */
-        header?: (headerElement: HTMLElement) => void,
-        /** render body */
-        body?: (bodyElement: HTMLElement) => void,
-        /** render footer */
-        footer?: (footerElement: HTMLElement) => void
-    }) {
+    return function showPanel(args) {
         args = args || {};
         panel.style.display = 'block';
         modal.style.display = 'block';
-
         setTimeout(() => {
             modal.style.transform = 'translateX(0)';
             backdrop.style.opacity = '0.5';
         }, 50);
-
         let setBodyHeight = () => {
             let headerHeight = header.getBoundingClientRect().height;
             let footerHeight = footer.getBoundingClientRect().height;
             let bodyHeight = window.innerHeight - headerHeight - footerHeight;
             body.style.height = `${bodyHeight}px`;
         };
-
         window.addEventListener('resize', () => setBodyHeight());
         setBodyHeight();
-
         if (args.header)
             args.header(header);
-
         if (args.body)
             args.body(body);
-
         if (args.footer)
             args.footer(footer);
-
         return {
             hide: () => hide()
-        }
-    }
+        };
+    };
 })();
-

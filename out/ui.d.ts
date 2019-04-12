@@ -2,7 +2,7 @@ declare namespace ui {
     type Callback = (event: MouseEvent) => Promise<any>;
     type Arguments = {
         confirm?: string | (() => string);
-        toast?: string | HTMLElement;
+        toast?: string | (() => string) | HTMLElement;
     };
     function buttonOnClick(callback: Callback, args?: Arguments): (event: Event) => void;
     function buttonOnClick(element: HTMLButtonElement, callback: Callback, args?: Arguments): any;
@@ -29,8 +29,14 @@ declare namespace ui {
         confirmText?: string;
         cancelText?: string;
     }): void;
+    type ToastOptions = {
+        title?: string;
+        message: string;
+    };
+    type ToastMessage = string | HTMLElement | (() => string);
     let showToastMessage: typeof toast;
-    function toast(msg: string | HTMLElement): void;
+    function toast(options: ToastOptions): any;
+    function toast(msg: ToastMessage): any;
     let showPanel: (args: {
         /** render header */
         header?: (headerElement: HTMLElement) => void;

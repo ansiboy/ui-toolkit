@@ -267,18 +267,37 @@ var ui;
     }
     ui.confirm = confirm;
     ui.showToastMessage = toast;
-    function toast(msg) {
-        if (!msg)
-            throw new Error('Argument msg is null.');
+    function toast(obj) {
+        if (obj == null)
+            throw ui.errors.argumentNull('obj');
+        let msg;
+        let title;
+        if (typeof obj == 'object') {
+            if (obj.tagName == null) {
+                let options = obj;
+                msg = options.message;
+                title = options.title;
+            }
+            else {
+                msg = obj;
+            }
+        }
+        else {
+            msg = obj;
+        }
         let dialogContainer = ui.dialogConfig.dialogContainer || document.body;
         let toastDialogElement = document.createElement('div');
         toastDialogElement.className = 'modal fade in';
         toastDialogElement.style.marginTop = '20px';
         console.assert(dialogContainer != null, 'dialog container is null.');
         dialogContainer.appendChild(toastDialogElement);
+        let header = title ? `<div class="modal-header">
+                                    <h4 class="modal-title">${title}</h4>
+                               </div>` : '';
         toastDialogElement.innerHTML = `
                         <div class="modal-dialog">
                             <div class="modal-content">
+                                ${header}
                                 <div class="modal-body form-horizontal">
                                 </div>
                             </div>
@@ -286,8 +305,12 @@ var ui;
                     `;
         let modalBody = toastDialogElement.querySelector('.modal-body');
         console.assert(modalBody != null);
-        if (typeof msg == 'string')
+        if (typeof msg == 'string') {
             modalBody.innerHTML = `<h5>${msg}</h5>`;
+        }
+        else if (typeof msg == 'function') {
+            modalBody.innerHTML = `<h5>${msg()}</h5>`;
+        }
         else
             modalBody.appendChild(msg);
         // let dialog = new Dialog(toastDialogElement);
@@ -466,6 +489,7 @@ var ui;
         if (imageUrl.indexOf('data:image/png;base64') == 0 || element['rendered']) {
             return;
         }
+        element.title = imageUrl;
         //====================================================
         // 通过 URL 设置图片大小
         if (imageUrl && !options.imageSize) {

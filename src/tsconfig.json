@@ -1,14 +1,14 @@
 {
     "compilerOptions": {
         "target": "es6",
-        "module": "none",
+        "module": "commonjs",
         "sourceMap": false,
         "declaration": true,
-        "outFile": "../out/ui.js",
+        "outDir": "../out",
         "lib": [
             "dom",
             "scripthost",
             "es2015"
         ]
     }
-}   
+}
