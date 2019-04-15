@@ -1,17 +1,17 @@
 import { toast, confirm } from "./dialog";
 
 export type Callback = (event: MouseEvent) => Promise<any>;
-export type Arguments = {
+export type ClickArguments = {
     confirm?: string | (() => string),
     toast?: string | (() => string) | HTMLElement
 };
 
-export function buttonOnClick(callback: Callback, args?: Arguments): (event: Event) => void;
-export function buttonOnClick(element: HTMLButtonElement, callback: Callback, args?: Arguments);
-export function buttonOnClick(arg1: any, arg2: any, arg3?: Arguments): (event: Event) => void {
+export function buttonOnClick(callback: Callback, args?: ClickArguments): (event: Event) => void;
+export function buttonOnClick(element: HTMLButtonElement, callback: Callback, args?: ClickArguments);
+export function buttonOnClick(arg1: any, arg2: any, arg3?: ClickArguments): (event: Event) => void {
     let element: HTMLButtonElement;
     let callback: Callback;
-    let args: Arguments;
+    let args: ClickArguments;
     if (typeof (arg1) == 'function') {
         callback = arg1;
         args = arg2;
