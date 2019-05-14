@@ -1,6 +1,6 @@
 /*!
  * 
- *  maishu-ui-toolkit v1.2.6
+ *  maishu-ui-toolkit v1.2.8
  *  git+https://github.com/ansiboy/ui-toolkit.git
  *  
  *  Copyright (c) 2016-2018, shu mai <ansiboy@163.com>
@@ -458,6 +458,8 @@ function confirm(args) {
       return hideDialog(confirmDialogElment);
     }).then(function () {
       confirmDialogElment.remove();
+    }).catch(function () {
+      return hideDialog(confirmDialogElment);
     });
   };
 

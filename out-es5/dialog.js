@@ -218,6 +218,8 @@ function confirm(args) {
       return hideDialog(confirmDialogElment);
     }).then(function () {
       confirmDialogElment.remove();
+    }).catch(function () {
+      return hideDialog(confirmDialogElment);
     });
   };
 

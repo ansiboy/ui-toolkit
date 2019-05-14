@@ -200,7 +200,8 @@ function confirm(args) {
             .then(() => hideDialog(confirmDialogElment))
             .then(() => {
             confirmDialogElment.remove();
-        });
+        })
+            .catch(() => hideDialog(confirmDialogElment));
     };
     showDialog(confirmDialogElment);
 }
