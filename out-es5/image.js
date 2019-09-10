@@ -73,7 +73,7 @@ function renderImage(element, options) {
     return;
   }
 
-  element.title = imageUrl; //====================================================
+  element.setAttribute("image-url", imageUrl); //====================================================
   // 通过 URL 设置图片大小
 
   if (imageUrl && !options.imageSize) {

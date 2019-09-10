@@ -1,6 +1,6 @@
 /*!
  * 
- *  maishu-ui-toolkit v1.3.2
+ *  maishu-ui-toolkit v1.4.4
  *  git+https://github.com/ansiboy/ui-toolkit.git
  *  
  *  Copyright (c) 2016-2018, shu mai <ansiboy@163.com>
@@ -627,7 +627,7 @@ function renderImage(element, options) {
     if (imageUrl.indexOf('data:image/png;base64') == 0 || element['rendered']) {
         return;
     }
-    element.title = imageUrl;
+    element.setAttribute("image-url", imageUrl);
     //====================================================
     // 通过 URL 设置图片大小
     if (imageUrl && !options.imageSize) {
