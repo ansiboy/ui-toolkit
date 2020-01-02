@@ -5,7 +5,7 @@ export declare let dialogConfig: {
  * @param element bootstrap 的 modal 元素
  */
 export declare function showDialog(element: HTMLElement, callback?: (button: HTMLButtonElement) => void): void;
-export declare function hideDialog(element: HTMLElement): Promise<{}>;
+export declare function hideDialog(element: HTMLElement): Promise<unknown>;
 export declare function alert(args: string | {
     title: string;
     message: string;

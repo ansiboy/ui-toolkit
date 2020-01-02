@@ -7,9 +7,9 @@ export declare class Panel {
     private panel;
     private modal;
     constructor(element: HTMLElement);
-    readonly header: HTMLElement;
-    readonly body: HTMLElement;
-    readonly footer: HTMLElement;
+    get header(): HTMLElement;
+    get body(): HTMLElement;
+    get footer(): HTMLElement;
     build(element: HTMLElement): void;
     show(): void;
     hide(): void;
