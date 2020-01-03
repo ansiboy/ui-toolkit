@@ -1,6 +1,6 @@
 /*!
  * 
- *  maishu-ui-toolkit v1.5.0
+ *  maishu-ui-toolkit v1.6.0
  *  git+https://github.com/ansiboy/ui-toolkit.git
  *  
  *  Copyright (c) 2016-2018, shu mai <ansiboy@163.com>
