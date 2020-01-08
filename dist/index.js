@@ -95,6 +95,270 @@ define(function() { return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ({
 
+/***/ "../toolkit/dist/index.js":
+/*!********************************!*\
+  !*** ../toolkit/dist/index.js ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {/*!
+ * ~
+ *  maishu-toolkit v1.0.0
+ *  https://github.com/ansiboy/toolkit
+ *  
+ *  Copyright (c) 2016-2018, shu mai <ansiboy@163.com>
+ *  Licensed under the MIT License.
+ * 
+ */
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(true)
+		module.exports = factory();
+	else { var i, a; }
+})(typeof window === 'undefined' ? global : window, function() {
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = "./out/index.js");
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ "./out/errors.js":
+/*!***********************!*\
+  !*** ./out/errors.js ***!
+  \***********************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+class Errors {
+    argumentNull(argumentName) {
+        let error = new Error(`Argument ${argumentName} cannt be null or emtpy.`);
+        let name = "argumentNull";
+        error.name = name;
+        return error;
+    }
+    routeDataFieldNull(fieldName) {
+        let msg = `The ${fieldName} field of route data cannt be null.`;
+        let error = new Error(msg);
+        let name = "routeDataFieldNull";
+        error.name = name;
+        return error;
+    }
+    argumentFieldNull(fieldName, argumentName) {
+        let msg = `The ${fieldName} field of ${argumentName} cannt be null.`;
+        let error = new Error(msg);
+        let name = "argumentFieldNull";
+        error.name = name;
+        return error;
+    }
+    argumentTypeIncorrect(argumentName, expectedType) {
+        let msg = `Argument ${argumentName} type error, expected type is ${expectedType}.`;
+        let error = new Error(msg);
+        let name = "argumentTypeIncorrect";
+        error.name = name;
+        return error;
+    }
+}
+exports.Errors = Errors;
+exports.errors = new Errors();
+
+
+/***/ }),
+
+/***/ "./out/guid.js":
+/*!*********************!*\
+  !*** ./out/guid.js ***!
+  \*********************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+function guid() {
+    function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1);
+    }
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+        s4() + '-' + s4() + s4() + s4();
+}
+exports.guid = guid;
+
+
+/***/ }),
+
+/***/ "./out/index.js":
+/*!**********************!*\
+  !*** ./out/index.js ***!
+  \**********************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var guid_1 = __webpack_require__(/*! ./guid */ "./out/guid.js");
+exports.guid = guid_1.guid;
+var path_1 = __webpack_require__(/*! ./path */ "./out/path.js");
+exports.pathContact = path_1.pathContact;
+var errors_1 = __webpack_require__(/*! ./errors */ "./out/errors.js");
+exports.Errors = errors_1.Errors;
+
+
+/***/ }),
+
+/***/ "./out/path.js":
+/*!*********************!*\
+  !*** ./out/path.js ***!
+  \*********************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+/** 连接多个路径 */
+function pathContact(...paths) {
+    paths = paths || [];
+    if (paths.length == 0)
+        return "";
+    if (paths.length == 1) {
+        return paths[0];
+    }
+    let str = paths.join("");
+    // 将一个或多个的 / 变为一个 /，例如：/shop/test// 转换为 /shop/test/
+    str = str.replace(/\/+/g, '/');
+    return str;
+}
+exports.pathContact = pathContact;
+
+
+/***/ })
+
+/******/ });
+});
+//# sourceMappingURL=index.js.map
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../ui-toolkit/node_modules/webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
+
+/***/ }),
+
+/***/ "./node_modules/webpack/buildin/global.js":
+/*!***********************************!*\
+  !*** (webpack)/buildin/global.js ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || new Function("return this")();
+} catch (e) {
+	// This works if the window reference is available
+	if (typeof window === "object") g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+
 /***/ "./out/buttonOnClick.js":
 /*!******************************!*\
   !*** ./out/buttonOnClick.js ***!
@@ -546,14 +810,8 @@ exports.showPanel = (function () {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.errors = {
-    argumentNull(paramName) {
-        let msg = `Argumnet ${paramName} can not be null or empty.`;
-        let error = new Error();
-        error.message = msg;
-        return error;
-    }
-};
+const maishu_toolkit_1 = __webpack_require__(/*! maishu-toolkit */ "../toolkit/dist/index.js");
+exports.errors = new maishu_toolkit_1.Errors();
 
 
 /***/ }),
@@ -754,6 +1012,119 @@ exports.renderImage = image_1.renderImage;
 exports.loadImageConfig = image_1.loadImageConfig;
 exports.imageFileToBase64 = image_1.imageFileToBase64;
 exports.fileToBase64 = image_1.fileToBase64;
+var less_1 = __webpack_require__(/*! ./less */ "./out/less.js");
+exports.Less = less_1.Less;
+
+
+/***/ }),
+
+/***/ "./out/less.js":
+/*!*********************!*\
+  !*** ./out/less.js ***!
+  \*********************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const less = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module 'lessjs'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+const errors_1 = __webpack_require__(/*! ./errors */ "./out/errors.js");
+class Less {
+    static pathname(url) {
+        let el = document.createElement('a');
+        el.href = url;
+        return el.pathname;
+    }
+    static load(url, options) {
+        return __awaiter(this, void 0, void 0, function* () {
+            options = options || {};
+            let { wrapperClassName, name } = options;
+            if (!options.baseUrl) {
+                let { protocol, host } = location;
+                let pathname = Less.pathname(url);
+                console.assert(pathname[0] == "/");
+                options.baseUrl = `${protocol}//${host}${pathname}`;
+            }
+            let res = yield fetch(url);
+            let text = yield res.text();
+            if (wrapperClassName) {
+                text = `.${wrapperClassName} {${text}}`;
+            }
+            Less.renderByText(text, options);
+        });
+    }
+    static renderByRequireJS(moduleName, options) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let req;
+            if (options.contextName) {
+                req = requirejs({ context: options.contextName });
+            }
+            else {
+                req = requirejs;
+            }
+            req([`text!${moduleName}`], function (str) {
+                console.assert(str);
+                Less.renderByText(str, options);
+            });
+        });
+    }
+    static renderByText(lessText, options) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!lessText)
+                throw errors_1.errors.argumentNull("lessText");
+            if (typeof lessText != "string")
+                throw errors_1.errors.argumentTypeIncorrect("lessText", "string");
+            options = options || {};
+            if (options.baseUrl) {
+                let extractUrlParts = less.FileManager.prototype.extractUrlParts;
+                less.FileManager.prototype.extractUrlParts = function (url) {
+                    return extractUrlParts.apply(less, [url, options.baseUrl]);
+                };
+            }
+            less.render(lessText, function (e, result) {
+                if (e) {
+                    console.error(e);
+                    return;
+                }
+                let styleElement = null;
+                if (name) {
+                    console.assert(document.head != null);
+                    let head = document.head;
+                    styleElement = head.querySelector(`style[data-name="${name}"]`);
+                }
+                if (styleElement == null) {
+                    styleElement = document.createElement('style');
+                    document.head.appendChild(styleElement);
+                    if (name)
+                        styleElement.setAttribute("data-name", name);
+                }
+                styleElement.innerText = result.css;
+            });
+        });
+    }
+    static parse(lessText) {
+        return new Promise((resolve, reject) => {
+            less.render(lessText, function (e, result) {
+                if (e) {
+                    reject(e);
+                    return;
+                }
+                resolve(result.css);
+            });
+        });
+    }
+}
+exports.Less = Less;
 
 
 /***/ })

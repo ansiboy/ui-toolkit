@@ -1,10 +1,4 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.errors = {
-    argumentNull(paramName) {
-        let msg = `Argumnet ${paramName} can not be null or empty.`;
-        let error = new Error();
-        error.message = msg;
-        return error;
-    }
-};
+const maishu_toolkit_1 = require("maishu-toolkit");
+exports.errors = new maishu_toolkit_1.Errors();

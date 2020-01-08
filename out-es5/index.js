@@ -24,4 +24,8 @@ exports.renderImage = image_1.renderImage;
 exports.loadImageConfig = image_1.loadImageConfig;
 exports.imageFileToBase64 = image_1.imageFileToBase64;
 exports.fileToBase64 = image_1.fileToBase64;
+
+var less_1 = require("./less");
+
+exports.Less = less_1.Less;
 //# sourceMappingURL=index.js.map
