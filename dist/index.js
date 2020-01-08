@@ -7,7 +7,7 @@
  *  Licensed under the MIT License.
  * 
  */
-define(function() { return /******/ (function(modules) { // webpackBootstrap
+define(["lessjs"], function(__WEBPACK_EXTERNAL_MODULE_lessjs__) { return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 /******/
@@ -1037,7 +1037,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const less = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module 'lessjs'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+const less = __webpack_require__(/*! lessjs */ "lessjs");
 const errors_1 = __webpack_require__(/*! ./errors */ "./out/errors.js");
 class Less {
     static pathname(url) {
@@ -1126,6 +1126,17 @@ class Less {
 }
 exports.Less = Less;
 
+
+/***/ }),
+
+/***/ "lessjs":
+/*!*************************!*\
+  !*** external "lessjs" ***!
+  \*************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE_lessjs__;
 
 /***/ })
 
