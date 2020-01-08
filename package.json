@@ -27,5 +27,8 @@
     "load-grunt-tasks": "^4.0.0",
     "webpack": "^4.30.0",
     "webpack-cli": "^3.3.0"
+  },
+  "dependencies": {
+    "maishu-toolkit": "file:../toolkit"
   }
 }
