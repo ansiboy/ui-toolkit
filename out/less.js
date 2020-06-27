@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Less = void 0;
 const less = require("lessjs");
 const errors_1 = require("./errors");
 class Less {

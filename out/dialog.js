@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.showPanel = exports.toast = exports.showToastMessage = exports.confirm = exports.alert = exports.hideDialog = exports.showDialog = exports.dialogConfig = void 0;
 const errors_1 = require("./errors");
 function dialogContainer() {
     return exports.dialogConfig.dialogContainer || document.body;
@@ -104,7 +105,7 @@ function alert(args) {
                 
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">
+                        <button type="button" class="btn close" data-dismiss="modal">
                             <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
                         </button>
                         <h4 class="modal-title">${args.title}</h4>
@@ -159,7 +160,7 @@ function confirm(args) {
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">
+                                <button type="button" class="btn close" data-dismiss="modal">
                                     <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
                                 </button>
                                 <h4 class="modal-title">确认</h4>
