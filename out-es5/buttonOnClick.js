@@ -35,7 +35,6 @@ var __awaiter = void 0 && (void 0).__awaiter || function (thisArg, _arguments, P
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.buttonOnClick = void 0;
 
 var dialog_1 = require("./dialog");
 

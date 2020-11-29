@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.fileToBase64 = exports.imageFileToBase64 = exports.renderImage = exports.generateImageBase64 = exports.loadImageConfig = void 0;
 const errors_1 = require("./errors");
 exports.loadImageConfig = {
     /** 图片显示的文字 */

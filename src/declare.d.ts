@@ -1,5 +1,5 @@
 
-declare module "lessjs" {
+declare module "less" {
 
 	class FileManager {
 		extractUrlParts: (url: string, baseUrl: string) => string;

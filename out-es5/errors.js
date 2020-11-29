@@ -3,7 +3,6 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.errors = void 0;
 
 var maishu_toolkit_1 = require("maishu-toolkit");
 

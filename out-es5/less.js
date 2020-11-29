@@ -41,9 +41,8 @@ var __awaiter = void 0 && (void 0).__awaiter || function (thisArg, _arguments, P
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Less = void 0;
 
-var less = require("lessjs");
+var less = require("less");
 
 var errors_1 = require("./errors");
 
@@ -119,6 +118,8 @@ function () {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
+                options = options || {};
+
                 if (options.contextName) {
                   req = requirejs({
                     context: options.contextName
@@ -132,7 +133,7 @@ function () {
                   Less.renderByText(str, options);
                 });
 
-              case 2:
+              case 3:
               case "end":
                 return _context2.stop();
             }

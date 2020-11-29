@@ -9,8 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Less = void 0;
-const less = require("lessjs");
+const less = require("less");
 const errors_1 = require("./errors");
 class Less {
     static pathname(url) {
@@ -38,6 +37,7 @@ class Less {
     }
     static renderByRequireJS(moduleName, options) {
         return __awaiter(this, void 0, void 0, function* () {
+            options = options || {};
             let req;
             if (options.contextName) {
                 req = requirejs({ context: options.contextName });

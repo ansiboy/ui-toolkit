@@ -1,14 +1,14 @@
-import less = require("lessjs");
+import less = require("less");
 import { errors } from "./errors";
 
 interface RequireJS {
-	(modules: string[], success?: (arg0: any, arg1: any) => void, err?: (err) => void);
+    (modules: string[], success?: (arg0: any, arg1: any) => void, err?: (err) => void);
 }
 
 
 declare let requirejs: {
-	(config: { context: string }, modules?: string[], callback?: Function, err?: Function): RequireJS;
-	(modules: string[], callback?: Function, err?: Function): RequireJS;
+    (config: { context: string }, modules?: string[], callback?: Function, err?: Function): RequireJS;
+    (modules: string[], callback?: Function, err?: Function): RequireJS;
 };
 
 
@@ -45,6 +45,7 @@ export class Less {
     }
 
     static async renderByRequireJS(moduleName: string, options?: Options & { contextName?: string }) {
+        options = options || {};
         let req: RequireJS;
         if (options.contextName) {
             req = requirejs({ context: options.contextName });

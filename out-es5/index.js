@@ -6,91 +6,26 @@ Object.defineProperty(exports, "__esModule", {
 
 var buttonOnClick_1 = require("./buttonOnClick");
 
-Object.defineProperty(exports, "buttonOnClick", {
-  enumerable: true,
-  get: function get() {
-    return buttonOnClick_1.buttonOnClick;
-  }
-});
+exports.buttonOnClick = buttonOnClick_1.buttonOnClick;
 
 var dialog_1 = require("./dialog");
 
-Object.defineProperty(exports, "showDialog", {
-  enumerable: true,
-  get: function get() {
-    return dialog_1.showDialog;
-  }
-});
-Object.defineProperty(exports, "hideDialog", {
-  enumerable: true,
-  get: function get() {
-    return dialog_1.hideDialog;
-  }
-});
-Object.defineProperty(exports, "toast", {
-  enumerable: true,
-  get: function get() {
-    return dialog_1.toast;
-  }
-});
-Object.defineProperty(exports, "alert", {
-  enumerable: true,
-  get: function get() {
-    return dialog_1.alert;
-  }
-});
-Object.defineProperty(exports, "confirm", {
-  enumerable: true,
-  get: function get() {
-    return dialog_1.confirm;
-  }
-});
-Object.defineProperty(exports, "dialogConfig", {
-  enumerable: true,
-  get: function get() {
-    return dialog_1.dialogConfig;
-  }
-});
+exports.showDialog = dialog_1.showDialog;
+exports.hideDialog = dialog_1.hideDialog;
+exports.toast = dialog_1.toast;
+exports.alert = dialog_1.alert;
+exports.confirm = dialog_1.confirm;
+exports.dialogConfig = dialog_1.dialogConfig;
 
 var image_1 = require("./image");
 
-Object.defineProperty(exports, "generateImageBase64", {
-  enumerable: true,
-  get: function get() {
-    return image_1.generateImageBase64;
-  }
-});
-Object.defineProperty(exports, "renderImage", {
-  enumerable: true,
-  get: function get() {
-    return image_1.renderImage;
-  }
-});
-Object.defineProperty(exports, "loadImageConfig", {
-  enumerable: true,
-  get: function get() {
-    return image_1.loadImageConfig;
-  }
-});
-Object.defineProperty(exports, "imageFileToBase64", {
-  enumerable: true,
-  get: function get() {
-    return image_1.imageFileToBase64;
-  }
-});
-Object.defineProperty(exports, "fileToBase64", {
-  enumerable: true,
-  get: function get() {
-    return image_1.fileToBase64;
-  }
-});
+exports.generateImageBase64 = image_1.generateImageBase64;
+exports.renderImage = image_1.renderImage;
+exports.loadImageConfig = image_1.loadImageConfig;
+exports.imageFileToBase64 = image_1.imageFileToBase64;
+exports.fileToBase64 = image_1.fileToBase64;
 
 var less_1 = require("./less");
 
-Object.defineProperty(exports, "Less", {
-  enumerable: true,
-  get: function get() {
-    return less_1.Less;
-  }
-});
+exports.Less = less_1.Less;
 //# sourceMappingURL=index.js.map
