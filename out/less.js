@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Less = void 0;
 const less = require("less");
 const errors_1 = require("./errors");
 class Less {
@@ -70,6 +71,7 @@ class Less {
                     return;
                 }
                 let styleElement = null;
+                let name = options.name;
                 if (name) {
                     console.assert(document.head != null);
                     let head = document.head;

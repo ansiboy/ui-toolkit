@@ -80,6 +80,7 @@ export class Less {
             }
 
             let styleElement: HTMLStyleElement | null = null;
+            let name = options.name;
             if (name) {
                 console.assert(document.head != null);
                 let head = document.head;

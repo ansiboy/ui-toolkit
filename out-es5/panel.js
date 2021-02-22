@@ -9,6 +9,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.Panel = void 0;
 
 var errors_1 = require("./errors");
 

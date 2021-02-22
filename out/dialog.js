@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.showPanel = exports.toast = exports.showToastMessage = exports.confirm = exports.alert = exports.hideDialog = exports.showDialog = exports.dialogConfig = void 0;
 const errors_1 = require("./errors");
 function dialogContainer() {
     return exports.dialogConfig.dialogContainer || document.body;
@@ -70,7 +71,7 @@ function hideDialog(element) {
     return new Promise((reslove, reject) => {
         setTimeout(() => {
             element.style.removeProperty('display');
-            reslove();
+            reslove({});
         }, 1000);
     });
 }
@@ -94,12 +95,13 @@ function findDialogElement(e) {
     }
 }
 function alert(args) {
-    let element = document.createElement('div');
-    dialogContainer().appendChild(element);
-    if (typeof args == 'string') {
-        args = { title: '&nbsp;', message: args };
-    }
-    element.innerHTML = `
+    const elementId = "AA0321E3-B2E4-4971-99D8-BF2FF66748F2";
+    let element = document.getElementById(elementId);
+    if (element == null) {
+        element = document.createElement('div');
+        element.id = elementId;
+        dialogContainer().appendChild(element);
+        element.innerHTML = `
             <div class="modal-dialog">
                 
                 <div class="modal-content">
@@ -107,31 +109,31 @@ function alert(args) {
                         <button type="button" class="btn close" data-dismiss="modal">
                             <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
                         </button>
-                        <h4 class="modal-title">${args.title}</h4>
+                        <h4 class="modal-title"></h4>
                     </div>
                     <div class="modal-body">
-                        <h5>${args.message}</h5>
+                        <h5></h5>
                     </div>
                     <div class="modal-footer">
                         <button name="ok" type="button" class="btn btn-primary">
-                            确定
                         </button>
                     </div>
                 </div>
             </div>
         `;
-    // $(element).modal();
-    // $(element).on('hidden.bs.modal', () => {
-    //     $(element).remove();
-    // });
-    // var dialog = new Dialog(element);
-    // dialog.show();
+    }
+    if (typeof args == 'string') {
+        args = { title: '&nbsp;', message: args };
+    }
     showDialog(element);
     let titleElement = element.querySelector('.modal-title');
+    titleElement.innerHTML = args.title;
+    let bodyElement = element.querySelector('.modal-body');
+    bodyElement.innerHTML = args.message;
     let modalFooter = element.querySelector('.modal-footer');
-    let cancelButton = modalFooter.querySelector('[name="cancel"]');
     let okButton = modalFooter.querySelector('[name="ok"]');
-    okButton.onclick = () => hideDialog(element); //dialog.hide()
+    okButton.innerHTML = args.confirmText || "确定";
+    okButton.onclick = () => hideDialog(element);
 }
 exports.alert = alert;
 function confirm(args) {
@@ -149,35 +151,43 @@ function confirm(args) {
         title = args.title;
         message = args.message;
     }
-    let confirmDialogElment;
-    confirmDialogElment = document.createElement('div');
-    confirmDialogElment.className = 'modal fade';
-    confirmDialogElment.style.marginTop = '20px';
-    console.assert(dialogContainer != null, 'dialog container is null');
-    dialogContainer().appendChild(confirmDialogElment);
-    confirmDialogElment.innerHTML = `
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="btn close" data-dismiss="modal">
-                                    <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-                                </button>
-                                <h4 class="modal-title">确认</h4>
-                            </div>
-                            <div class="modal-body form-horizontal">
-                               
-                            </div>
-                            <div class="modal-footer">
-                                <button name="cancel" type="button" class="btn btn-default">
-                                    ${cancelText}
-                                </button>
-                                <button name="ok" type="button" class="btn btn-primary">
-                                    ${confirmText}
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                `;
+    const elementId = "C3139D58-75F7-47B2-AEC4-76C3658848A0";
+    let confirmDialogElment = document.getElementById(elementId);
+    if (confirmDialogElment == null) {
+        confirmDialogElment = document.createElement('div');
+        confirmDialogElment.id = elementId;
+        confirmDialogElment.className = 'modal fade';
+        confirmDialogElment.style.marginTop = '20px';
+        console.assert(dialogContainer != null, 'dialog container is null');
+        confirmDialogElment.innerHTML = `
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title">确认</h4>
+                </div>
+                <div class="modal-body form-horizontal">
+                   
+                </div>
+                <div class="modal-footer">
+                    <button name="cancel" type="button" class="btn btn-default">
+           
+                    </button>
+                    <button name="ok" type="button" class="btn btn-primary">
+        
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+        dialogContainer().appendChild(confirmDialogElment);
+    }
+    let cancelElement = confirmDialogElment.querySelector('[name="cancel"]');
+    cancelElement.innerHTML = cancelText;
+    let okElement = confirmDialogElment.querySelector('[name="ok"]');
+    okElement.innerHTML = confirmText;
     let modalHeader = confirmDialogElment.querySelector('.modal-header');
     let modalBody = confirmDialogElment.querySelector('.modal-body');
     let modalFooter = confirmDialogElment.querySelector('.modal-footer');

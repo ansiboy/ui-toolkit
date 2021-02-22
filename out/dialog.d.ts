@@ -9,6 +9,7 @@ export declare function hideDialog(element: HTMLElement): Promise<unknown>;
 export declare function alert(args: string | {
     title: string;
     message: string;
+    confirmText?: string;
 }): void;
 export declare function confirm(args: {
     title?: string;

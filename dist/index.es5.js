@@ -12289,6 +12289,7 @@ var __awaiter = void 0 && (void 0).__awaiter || function (thisArg, _arguments, P
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.buttonOnClick = void 0;
 
 var dialog_1 = __webpack_require__(/*! ./dialog */ "./out-es5/dialog.js");
 
@@ -12406,6 +12407,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.showPanel = exports.toast = exports.showToastMessage = exports.confirm = exports.alert = exports.hideDialog = exports.showDialog = exports.dialogConfig = void 0;
 
 var errors_1 = __webpack_require__(/*! ./errors */ "./out-es5/errors.js");
 
@@ -12498,7 +12500,7 @@ function hideDialog(element) {
   return new Promise(function (reslove, reject) {
     setTimeout(function () {
       element.style.removeProperty('display');
-      reslove();
+      reslove({});
     }, 1000);
   });
 }
@@ -12527,8 +12529,15 @@ function findDialogElement(e) {
 }
 
 function alert(args) {
-  var element = document.createElement('div');
-  dialogContainer().appendChild(element);
+  var elementId = "AA0321E3-B2E4-4971-99D8-BF2FF66748F2";
+  var element = document.getElementById(elementId);
+
+  if (element == null) {
+    element = document.createElement('div');
+    element.id = elementId;
+    dialogContainer().appendChild(element);
+    element.innerHTML = "\n            <div class=\"modal-dialog\">\n                \n                <div class=\"modal-content\">\n                    <div class=\"modal-header\">\n                        <button type=\"button\" class=\"btn close\" data-dismiss=\"modal\">\n                            <span aria-hidden=\"true\">&times;</span><span class=\"sr-only\">Close</span>\n                        </button>\n                        <h4 class=\"modal-title\"></h4>\n                    </div>\n                    <div class=\"modal-body\">\n                        <h5></h5>\n                    </div>\n                    <div class=\"modal-footer\">\n                        <button name=\"ok\" type=\"button\" class=\"btn btn-primary\">\n                        </button>\n                    </div>\n                </div>\n            </div>\n        ";
+  }
 
   if (typeof args == 'string') {
     args = {
@@ -12537,23 +12546,18 @@ function alert(args) {
     };
   }
 
-  element.innerHTML = "\n            <div class=\"modal-dialog\">\n                \n                <div class=\"modal-content\">\n                    <div class=\"modal-header\">\n                        <button type=\"button\" class=\"btn close\" data-dismiss=\"modal\">\n                            <span aria-hidden=\"true\">&times;</span><span class=\"sr-only\">Close</span>\n                        </button>\n                        <h4 class=\"modal-title\">".concat(args.title, "</h4>\n                    </div>\n                    <div class=\"modal-body\">\n                        <h5>").concat(args.message, "</h5>\n                    </div>\n                    <div class=\"modal-footer\">\n                        <button name=\"ok\" type=\"button\" class=\"btn btn-primary\">\n                            \u786E\u5B9A\n                        </button>\n                    </div>\n                </div>\n            </div>\n        "); // $(element).modal();
-  // $(element).on('hidden.bs.modal', () => {
-  //     $(element).remove();
-  // });
-  // var dialog = new Dialog(element);
-  // dialog.show();
-
   showDialog(element);
   var titleElement = element.querySelector('.modal-title');
+  titleElement.innerHTML = args.title;
+  var bodyElement = element.querySelector('.modal-body');
+  bodyElement.innerHTML = args.message;
   var modalFooter = element.querySelector('.modal-footer');
-  var cancelButton = modalFooter.querySelector('[name="cancel"]');
   var okButton = modalFooter.querySelector('[name="ok"]');
+  okButton.innerHTML = args.confirmText || "确定";
 
   okButton.onclick = function () {
     return hideDialog(element);
-  }; //dialog.hide()
-
+  };
 }
 
 exports.alert = alert;
@@ -12578,13 +12582,23 @@ function confirm(args) {
     message = args.message;
   }
 
-  var confirmDialogElment;
-  confirmDialogElment = document.createElement('div');
-  confirmDialogElment.className = 'modal fade';
-  confirmDialogElment.style.marginTop = '20px';
-  console.assert(dialogContainer != null, 'dialog container is null');
-  dialogContainer().appendChild(confirmDialogElment);
-  confirmDialogElment.innerHTML = "\n                    <div class=\"modal-dialog\">\n                        <div class=\"modal-content\">\n                            <div class=\"modal-header\">\n                                <button type=\"button\" class=\"btn close\" data-dismiss=\"modal\">\n                                    <span aria-hidden=\"true\">&times;</span><span class=\"sr-only\">Close</span>\n                                </button>\n                                <h4 class=\"modal-title\">\u786E\u8BA4</h4>\n                            </div>\n                            <div class=\"modal-body form-horizontal\">\n                               \n                            </div>\n                            <div class=\"modal-footer\">\n                                <button name=\"cancel\" type=\"button\" class=\"btn btn-default\">\n                                    ".concat(cancelText, "\n                                </button>\n                                <button name=\"ok\" type=\"button\" class=\"btn btn-primary\">\n                                    ").concat(confirmText, "\n                                </button>\n                            </div>\n                        </div>\n                    </div>\n                ");
+  var elementId = "C3139D58-75F7-47B2-AEC4-76C3658848A0";
+  var confirmDialogElment = document.getElementById(elementId);
+
+  if (confirmDialogElment == null) {
+    confirmDialogElment = document.createElement('div');
+    confirmDialogElment.id = elementId;
+    confirmDialogElment.className = 'modal fade';
+    confirmDialogElment.style.marginTop = '20px';
+    console.assert(dialogContainer != null, 'dialog container is null');
+    confirmDialogElment.innerHTML = "\n        <div class=\"modal-dialog\">\n            <div class=\"modal-content\">\n                <div class=\"modal-header\">\n                    <button type=\"button\" class=\"btn close\" data-dismiss=\"modal\">\n                        <span aria-hidden=\"true\">&times;</span><span class=\"sr-only\">Close</span>\n                    </button>\n                    <h4 class=\"modal-title\">\u786E\u8BA4</h4>\n                </div>\n                <div class=\"modal-body form-horizontal\">\n                   \n                </div>\n                <div class=\"modal-footer\">\n                    <button name=\"cancel\" type=\"button\" class=\"btn btn-default\">\n           \n                    </button>\n                    <button name=\"ok\" type=\"button\" class=\"btn btn-primary\">\n        \n                    </button>\n                </div>\n            </div>\n        </div>\n    ";
+    dialogContainer().appendChild(confirmDialogElment);
+  }
+
+  var cancelElement = confirmDialogElment.querySelector('[name="cancel"]');
+  cancelElement.innerHTML = cancelText;
+  var okElement = confirmDialogElment.querySelector('[name="ok"]');
+  okElement.innerHTML = confirmText;
   var modalHeader = confirmDialogElment.querySelector('.modal-header');
   var modalBody = confirmDialogElment.querySelector('.modal-body');
   var modalFooter = confirmDialogElment.querySelector('.modal-footer');
@@ -12768,6 +12782,7 @@ exports.showPanel = function () {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.errors = void 0;
 
 var maishu_toolkit_1 = __webpack_require__(/*! maishu-toolkit */ "./node_modules/maishu-toolkit/dist/index.js");
 
@@ -12790,6 +12805,7 @@ exports.errors = new maishu_toolkit_1.Errors();
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.fileToBase64 = exports.imageFileToBase64 = exports.renderImage = exports.generateImageBase64 = exports.loadImageConfig = void 0;
 
 var errors_1 = __webpack_require__(/*! ./errors */ "./out-es5/errors.js");
 
@@ -13002,31 +13018,97 @@ exports.fileToBase64 = fileToBase64;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.Less = exports.fileToBase64 = exports.imageFileToBase64 = exports.loadImageConfig = exports.renderImage = exports.generateImageBase64 = exports.dialogConfig = exports.confirm = exports.alert = exports.toast = exports.hideDialog = exports.showDialog = exports.buttonOnClick = void 0;
 
 var buttonOnClick_1 = __webpack_require__(/*! ./buttonOnClick */ "./out-es5/buttonOnClick.js");
 
-exports.buttonOnClick = buttonOnClick_1.buttonOnClick;
+Object.defineProperty(exports, "buttonOnClick", {
+  enumerable: true,
+  get: function get() {
+    return buttonOnClick_1.buttonOnClick;
+  }
+});
 
 var dialog_1 = __webpack_require__(/*! ./dialog */ "./out-es5/dialog.js");
 
-exports.showDialog = dialog_1.showDialog;
-exports.hideDialog = dialog_1.hideDialog;
-exports.toast = dialog_1.toast;
-exports.alert = dialog_1.alert;
-exports.confirm = dialog_1.confirm;
-exports.dialogConfig = dialog_1.dialogConfig;
+Object.defineProperty(exports, "showDialog", {
+  enumerable: true,
+  get: function get() {
+    return dialog_1.showDialog;
+  }
+});
+Object.defineProperty(exports, "hideDialog", {
+  enumerable: true,
+  get: function get() {
+    return dialog_1.hideDialog;
+  }
+});
+Object.defineProperty(exports, "toast", {
+  enumerable: true,
+  get: function get() {
+    return dialog_1.toast;
+  }
+});
+Object.defineProperty(exports, "alert", {
+  enumerable: true,
+  get: function get() {
+    return dialog_1.alert;
+  }
+});
+Object.defineProperty(exports, "confirm", {
+  enumerable: true,
+  get: function get() {
+    return dialog_1.confirm;
+  }
+});
+Object.defineProperty(exports, "dialogConfig", {
+  enumerable: true,
+  get: function get() {
+    return dialog_1.dialogConfig;
+  }
+});
 
 var image_1 = __webpack_require__(/*! ./image */ "./out-es5/image.js");
 
-exports.generateImageBase64 = image_1.generateImageBase64;
-exports.renderImage = image_1.renderImage;
-exports.loadImageConfig = image_1.loadImageConfig;
-exports.imageFileToBase64 = image_1.imageFileToBase64;
-exports.fileToBase64 = image_1.fileToBase64;
+Object.defineProperty(exports, "generateImageBase64", {
+  enumerable: true,
+  get: function get() {
+    return image_1.generateImageBase64;
+  }
+});
+Object.defineProperty(exports, "renderImage", {
+  enumerable: true,
+  get: function get() {
+    return image_1.renderImage;
+  }
+});
+Object.defineProperty(exports, "loadImageConfig", {
+  enumerable: true,
+  get: function get() {
+    return image_1.loadImageConfig;
+  }
+});
+Object.defineProperty(exports, "imageFileToBase64", {
+  enumerable: true,
+  get: function get() {
+    return image_1.imageFileToBase64;
+  }
+});
+Object.defineProperty(exports, "fileToBase64", {
+  enumerable: true,
+  get: function get() {
+    return image_1.fileToBase64;
+  }
+});
 
 var less_1 = __webpack_require__(/*! ./less */ "./out-es5/less.js");
 
-exports.Less = less_1.Less;
+Object.defineProperty(exports, "Less", {
+  enumerable: true,
+  get: function get() {
+    return less_1.Less;
+  }
+});
 //# sourceMappingURL=index.js.map
 
 
@@ -13083,6 +13165,7 @@ var __awaiter = void 0 && (void 0).__awaiter || function (thisArg, _arguments, P
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.Less = void 0;
 
 var less = __webpack_require__(/*! less */ "./node_modules/less/dist/less.js");
 
@@ -13227,6 +13310,7 @@ function () {
                   }
 
                   var styleElement = null;
+                  var name = options.name;
 
                   if (name) {
                     console.assert(document.head != null);

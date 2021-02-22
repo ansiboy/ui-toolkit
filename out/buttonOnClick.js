@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.buttonOnClick = void 0;
 const dialog_1 = require("./dialog");
 function buttonOnClick(arg1, arg2, arg3) {
     let element;
