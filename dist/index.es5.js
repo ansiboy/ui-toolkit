@@ -1,6 +1,6 @@
 /*!
  * 
- *  maishu-ui-toolkit v1.10.0
+ *  maishu-ui-toolkit v1.11.2
  *  git+https://github.com/ansiboy/ui-toolkit.git
  *  
  *  Copyright (c) 2016-2018, shu mai <ansiboy@163.com>
@@ -1242,6 +1242,7 @@ var alertElement = document.getElementById(alertElementId);
 if (alertElement == null) {
   alertElement = document.createElement('div');
   alertElement.id = alertElementId;
+  alertElement.className = 'modal fade';
   dialogContainer().appendChild(alertElement);
   alertElement.innerHTML = "\n        <div class=\"modal-dialog\">\n            \n            <div class=\"modal-content\">\n                <div class=\"modal-header\">\n                    <button type=\"button\" class=\"btn close\" data-dismiss=\"modal\">\n                        <span aria-hidden=\"true\">&times;</span><span class=\"sr-only\">Close</span>\n                    </button>\n                    <h4 class=\"modal-title\"></h4>\n                </div>\n                <div class=\"modal-body\">\n                    <h5></h5>\n                </div>\n                <div class=\"modal-footer\">\n                    <button name=\"ok\" type=\"button\" class=\"btn btn-primary\">\n                    </button>\n                </div>\n            </div>\n        </div>\n    ";
 }

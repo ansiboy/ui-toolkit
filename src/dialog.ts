@@ -117,6 +117,8 @@ let alertElement = document.getElementById(alertElementId);
 if (alertElement == null) {
     alertElement = document.createElement('div');
     alertElement.id = alertElementId;
+    alertElement.className = 'modal fade';
+    
     dialogContainer().appendChild(alertElement);
     alertElement.innerHTML = `
         <div class="modal-dialog">

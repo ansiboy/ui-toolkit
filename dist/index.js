@@ -1,6 +1,6 @@
 /*!
  * 
- *  maishu-ui-toolkit v1.10.0
+ *  maishu-ui-toolkit v1.11.2
  *  git+https://github.com/ansiboy/ui-toolkit.git
  *  
  *  Copyright (c) 2016-2018, shu mai <ansiboy@163.com>
@@ -1137,6 +1137,7 @@ let alertElement = document.getElementById(alertElementId);
 if (alertElement == null) {
     alertElement = document.createElement('div');
     alertElement.id = alertElementId;
+    alertElement.className = 'modal fade';
     dialogContainer().appendChild(alertElement);
     alertElement.innerHTML = `
         <div class="modal-dialog">
