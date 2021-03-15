@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Less = exports.fileToBase64 = exports.imageFileToBase64 = exports.loadImageConfig = exports.renderImage = exports.generateImageBase64 = exports.dialogConfig = exports.confirm = exports.alert = exports.toast = exports.hideDialog = exports.showDialog = exports.buttonOnClick = void 0;
+exports.fileToBase64 = exports.imageFileToBase64 = exports.loadImageConfig = exports.renderImage = exports.generateImageBase64 = exports.dialogConfig = exports.confirm = exports.alert = exports.toast = exports.hideDialog = exports.showDialog = exports.buttonOnClick = void 0;
 
 var buttonOnClick_1 = require("./buttonOnClick");
 
@@ -83,15 +83,6 @@ Object.defineProperty(exports, "fileToBase64", {
   enumerable: true,
   get: function get() {
     return image_1.fileToBase64;
-  }
-});
-
-var less_1 = require("./less");
-
-Object.defineProperty(exports, "Less", {
-  enumerable: true,
-  get: function get() {
-    return less_1.Less;
   }
 });
 //# sourceMappingURL=index.js.map

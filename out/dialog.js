@@ -94,48 +94,81 @@ function findDialogElement(e) {
         e = e.parentElement;
     }
 }
-function alert(args) {
-    const elementId = "AA0321E3-B2E4-4971-99D8-BF2FF66748F2";
-    let element = document.getElementById(elementId);
-    if (element == null) {
-        element = document.createElement('div');
-        element.id = elementId;
-        dialogContainer().appendChild(element);
-        element.innerHTML = `
-            <div class="modal-dialog">
-                
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="btn close" data-dismiss="modal">
-                            <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-                        </button>
-                        <h4 class="modal-title"></h4>
-                    </div>
-                    <div class="modal-body">
-                        <h5></h5>
-                    </div>
-                    <div class="modal-footer">
-                        <button name="ok" type="button" class="btn btn-primary">
-                        </button>
-                    </div>
+const alertElementId = "AA0321E3-B2E4-4971-99D8-BF2FF66748F2";
+let alertElement = document.getElementById(alertElementId);
+if (alertElement == null) {
+    alertElement = document.createElement('div');
+    alertElement.id = alertElementId;
+    dialogContainer().appendChild(alertElement);
+    alertElement.innerHTML = `
+        <div class="modal-dialog">
+            
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                    <h5></h5>
+                </div>
+                <div class="modal-footer">
+                    <button name="ok" type="button" class="btn btn-primary">
+                    </button>
                 </div>
             </div>
-        `;
-    }
+        </div>
+    `;
+}
+function alert(args) {
     if (typeof args == 'string') {
         args = { title: '&nbsp;', message: args };
     }
-    showDialog(element);
-    let titleElement = element.querySelector('.modal-title');
+    showDialog(alertElement);
+    let titleElement = alertElement.querySelector('.modal-title');
     titleElement.innerHTML = args.title;
-    let bodyElement = element.querySelector('.modal-body');
+    let bodyElement = alertElement.querySelector('.modal-body');
     bodyElement.innerHTML = args.message;
-    let modalFooter = element.querySelector('.modal-footer');
+    let modalFooter = alertElement.querySelector('.modal-footer');
     let okButton = modalFooter.querySelector('[name="ok"]');
     okButton.innerHTML = args.confirmText || "确定";
-    okButton.onclick = () => hideDialog(element);
+    okButton.onclick = () => hideDialog(alertElement);
 }
 exports.alert = alert;
+const elementId = "C3139D58-75F7-47B2-AEC4-76C3658848A0";
+let confirmDialogElment = document.getElementById(elementId);
+if (confirmDialogElment == null) {
+    confirmDialogElment = document.createElement('div');
+    confirmDialogElment.id = elementId;
+    confirmDialogElment.className = 'modal fade';
+    confirmDialogElment.style.marginTop = '20px';
+    console.assert(dialogContainer != null, 'dialog container is null');
+    confirmDialogElment.innerHTML = `
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title">确认</h4>
+            </div>
+            <div class="modal-body form-horizontal">
+               
+            </div>
+            <div class="modal-footer">
+                <button name="cancel" type="button" class="btn btn-default">
+       
+                </button>
+                <button name="ok" type="button" class="btn btn-primary">
+    
+                </button>
+            </div>
+        </div>
+    </div>
+`;
+    dialogContainer().appendChild(confirmDialogElment);
+}
 function confirm(args) {
     let title;
     let message;
@@ -150,39 +183,6 @@ function confirm(args) {
     else {
         title = args.title;
         message = args.message;
-    }
-    const elementId = "C3139D58-75F7-47B2-AEC4-76C3658848A0";
-    let confirmDialogElment = document.getElementById(elementId);
-    if (confirmDialogElment == null) {
-        confirmDialogElment = document.createElement('div');
-        confirmDialogElment.id = elementId;
-        confirmDialogElment.className = 'modal fade';
-        confirmDialogElment.style.marginTop = '20px';
-        console.assert(dialogContainer != null, 'dialog container is null');
-        confirmDialogElment.innerHTML = `
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="btn close" data-dismiss="modal">
-                        <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-                    </button>
-                    <h4 class="modal-title">确认</h4>
-                </div>
-                <div class="modal-body form-horizontal">
-                   
-                </div>
-                <div class="modal-footer">
-                    <button name="cancel" type="button" class="btn btn-default">
-           
-                    </button>
-                    <button name="ok" type="button" class="btn btn-primary">
-        
-                    </button>
-                </div>
-            </div>
-        </div>
-    `;
-        dialogContainer().appendChild(confirmDialogElment);
     }
     let cancelElement = confirmDialogElment.querySelector('[name="cancel"]');
     cancelElement.innerHTML = cancelText;

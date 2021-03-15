@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Less = exports.fileToBase64 = exports.imageFileToBase64 = exports.loadImageConfig = exports.renderImage = exports.generateImageBase64 = exports.dialogConfig = exports.confirm = exports.alert = exports.toast = exports.hideDialog = exports.showDialog = exports.buttonOnClick = void 0;
+exports.fileToBase64 = exports.imageFileToBase64 = exports.loadImageConfig = exports.renderImage = exports.generateImageBase64 = exports.dialogConfig = exports.confirm = exports.alert = exports.toast = exports.hideDialog = exports.showDialog = exports.buttonOnClick = void 0;
 var buttonOnClick_1 = require("./buttonOnClick");
 Object.defineProperty(exports, "buttonOnClick", { enumerable: true, get: function () { return buttonOnClick_1.buttonOnClick; } });
 var dialog_1 = require("./dialog");
@@ -16,5 +16,3 @@ Object.defineProperty(exports, "renderImage", { enumerable: true, get: function 
 Object.defineProperty(exports, "loadImageConfig", { enumerable: true, get: function () { return image_1.loadImageConfig; } });
 Object.defineProperty(exports, "imageFileToBase64", { enumerable: true, get: function () { return image_1.imageFileToBase64; } });
 Object.defineProperty(exports, "fileToBase64", { enumerable: true, get: function () { return image_1.fileToBase64; } });
-var less_1 = require("./less");
-Object.defineProperty(exports, "Less", { enumerable: true, get: function () { return less_1.Less; } });

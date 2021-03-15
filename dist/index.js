@@ -1,6 +1,6 @@
 /*!
  * 
- *  maishu-ui-toolkit v1.9.0
+ *  maishu-ui-toolkit v1.10.0
  *  git+https://github.com/ansiboy/ui-toolkit.git
  *  
  *  Copyright (c) 2016-2018, shu mai <ansiboy@163.com>
@@ -9,14 +9,14 @@
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("less"));
+		module.exports = factory();
 	else if(typeof define === 'function' && define.amd)
-		define(["less"], factory);
+		define([], factory);
 	else {
-		var a = typeof exports === 'object' ? factory(require("less")) : factory(root["less"]);
+		var a = factory();
 		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
 	}
-})(window, function(__WEBPACK_EXTERNAL_MODULE_less__) {
+})(window, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -114,7 +114,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /* WEBPACK VAR INJECTION */(function(global) {/*!
  * ~
- *  maishu-toolkit v1.4.13
+ *  maishu-toolkit v1.6.2
  *  https://github.com/ansiboy/toolkit
  *  
  *  Copyright (c) 2016-2018, shu mai <ansiboy@163.com>
@@ -745,7 +745,7 @@ class HTML {
 /*!**********************!*\
   !*** ./out/index.js ***!
   \**********************/
-/*! exports provided: guid, pathContact, Errors, errors, Callback, DataSource, DataSourceSelectArguments, parseUrl, deepEqual, objectAssignDeep, formatDate, HTML */
+/*! exports provided: guid, pathConcat, Errors, errors, Callback, DataSource, DataSourceSelectArguments, parseUrl, deepEqual, objectAssignDeep, formatDate, HTML, ValueStore */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -754,7 +754,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "guid", function() { return _guid__WEBPACK_IMPORTED_MODULE_0__["guid"]; });
 
 /* harmony import */ var _path__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./path */ "./out/path.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "pathContact", function() { return _path__WEBPACK_IMPORTED_MODULE_1__["pathContact"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "pathConcat", function() { return _path__WEBPACK_IMPORTED_MODULE_1__["pathConcat"]; });
 
 /* harmony import */ var _errors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./errors */ "./out/errors.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Errors", function() { return _errors__WEBPACK_IMPORTED_MODULE_2__["Errors"]; });
@@ -784,6 +784,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _html__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./html */ "./out/html.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "HTML", function() { return _html__WEBPACK_IMPORTED_MODULE_9__["HTML"]; });
 
+/* harmony import */ var _value_store__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./value-store */ "./out/value-store.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ValueStore", function() { return _value_store__WEBPACK_IMPORTED_MODULE_10__["ValueStore"]; });
+
+
 
 
 
@@ -802,14 +806,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!*********************!*\
   !*** ./out/path.js ***!
   \*********************/
-/*! exports provided: pathContact */
+/*! exports provided: pathConcat */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "pathContact", function() { return pathContact; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "pathConcat", function() { return pathConcat; });
 /** 连接多个路径 */
-function pathContact(...paths) {
+function pathConcat(...paths) {
     paths = paths || [];
     if (paths.length == 0)
         return "";
@@ -857,6 +861,54 @@ function pareeUrlQuery(query) {
     while (match = search.exec(query))
         urlParams[decode(match[1])] = decode(match[2]);
     return urlParams;
+}
+
+
+/***/ }),
+
+/***/ "./out/value-store.js":
+/*!****************************!*\
+  !*** ./out/value-store.js ***!
+  \****************************/
+/*! exports provided: ValueStore */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ValueStore", function() { return ValueStore; });
+/**
+ * 实现数据的存储，以及数据修改的通知
+ */
+class ValueStore {
+    constructor(value) {
+        this.items = new Array();
+        this._value = value;
+    }
+    attach(func, sender) {
+        if (this.value !== undefined) {
+            func(this.value, sender);
+        }
+        return this.add(func, sender);
+    }
+    add(func, sender) {
+        this.items.push({ func, sender });
+        return func;
+    }
+    remove(func) {
+        this.items = this.items.filter(o => o.func != func);
+    }
+    fire(value) {
+        this.items.forEach(o => o.func(value, o.sender));
+    }
+    get value() {
+        if (this._value === undefined)
+            return null;
+        return this._value;
+    }
+    set value(value) {
+        this._value = value;
+        this.fire(value);
+    }
 }
 
 
@@ -1080,48 +1132,81 @@ function findDialogElement(e) {
         e = e.parentElement;
     }
 }
-function alert(args) {
-    const elementId = "AA0321E3-B2E4-4971-99D8-BF2FF66748F2";
-    let element = document.getElementById(elementId);
-    if (element == null) {
-        element = document.createElement('div');
-        element.id = elementId;
-        dialogContainer().appendChild(element);
-        element.innerHTML = `
-            <div class="modal-dialog">
-                
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="btn close" data-dismiss="modal">
-                            <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-                        </button>
-                        <h4 class="modal-title"></h4>
-                    </div>
-                    <div class="modal-body">
-                        <h5></h5>
-                    </div>
-                    <div class="modal-footer">
-                        <button name="ok" type="button" class="btn btn-primary">
-                        </button>
-                    </div>
+const alertElementId = "AA0321E3-B2E4-4971-99D8-BF2FF66748F2";
+let alertElement = document.getElementById(alertElementId);
+if (alertElement == null) {
+    alertElement = document.createElement('div');
+    alertElement.id = alertElementId;
+    dialogContainer().appendChild(alertElement);
+    alertElement.innerHTML = `
+        <div class="modal-dialog">
+            
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                    <h5></h5>
+                </div>
+                <div class="modal-footer">
+                    <button name="ok" type="button" class="btn btn-primary">
+                    </button>
                 </div>
             </div>
-        `;
-    }
+        </div>
+    `;
+}
+function alert(args) {
     if (typeof args == 'string') {
         args = { title: '&nbsp;', message: args };
     }
-    showDialog(element);
-    let titleElement = element.querySelector('.modal-title');
+    showDialog(alertElement);
+    let titleElement = alertElement.querySelector('.modal-title');
     titleElement.innerHTML = args.title;
-    let bodyElement = element.querySelector('.modal-body');
+    let bodyElement = alertElement.querySelector('.modal-body');
     bodyElement.innerHTML = args.message;
-    let modalFooter = element.querySelector('.modal-footer');
+    let modalFooter = alertElement.querySelector('.modal-footer');
     let okButton = modalFooter.querySelector('[name="ok"]');
     okButton.innerHTML = args.confirmText || "确定";
-    okButton.onclick = () => hideDialog(element);
+    okButton.onclick = () => hideDialog(alertElement);
 }
 exports.alert = alert;
+const elementId = "C3139D58-75F7-47B2-AEC4-76C3658848A0";
+let confirmDialogElment = document.getElementById(elementId);
+if (confirmDialogElment == null) {
+    confirmDialogElment = document.createElement('div');
+    confirmDialogElment.id = elementId;
+    confirmDialogElment.className = 'modal fade';
+    confirmDialogElment.style.marginTop = '20px';
+    console.assert(dialogContainer != null, 'dialog container is null');
+    confirmDialogElment.innerHTML = `
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title">确认</h4>
+            </div>
+            <div class="modal-body form-horizontal">
+               
+            </div>
+            <div class="modal-footer">
+                <button name="cancel" type="button" class="btn btn-default">
+       
+                </button>
+                <button name="ok" type="button" class="btn btn-primary">
+    
+                </button>
+            </div>
+        </div>
+    </div>
+`;
+    dialogContainer().appendChild(confirmDialogElment);
+}
 function confirm(args) {
     let title;
     let message;
@@ -1136,39 +1221,6 @@ function confirm(args) {
     else {
         title = args.title;
         message = args.message;
-    }
-    const elementId = "C3139D58-75F7-47B2-AEC4-76C3658848A0";
-    let confirmDialogElment = document.getElementById(elementId);
-    if (confirmDialogElment == null) {
-        confirmDialogElment = document.createElement('div');
-        confirmDialogElment.id = elementId;
-        confirmDialogElment.className = 'modal fade';
-        confirmDialogElment.style.marginTop = '20px';
-        console.assert(dialogContainer != null, 'dialog container is null');
-        confirmDialogElment.innerHTML = `
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="btn close" data-dismiss="modal">
-                        <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-                    </button>
-                    <h4 class="modal-title">确认</h4>
-                </div>
-                <div class="modal-body form-horizontal">
-                   
-                </div>
-                <div class="modal-footer">
-                    <button name="cancel" type="button" class="btn btn-default">
-           
-                    </button>
-                    <button name="ok" type="button" class="btn btn-primary">
-        
-                    </button>
-                </div>
-            </div>
-        </div>
-    `;
-        dialogContainer().appendChild(confirmDialogElment);
     }
     let cancelElement = confirmDialogElment.querySelector('[name="cancel"]');
     cancelElement.innerHTML = cancelText;
@@ -1551,7 +1603,7 @@ exports.fileToBase64 = fileToBase64;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Less = exports.fileToBase64 = exports.imageFileToBase64 = exports.loadImageConfig = exports.renderImage = exports.generateImageBase64 = exports.dialogConfig = exports.confirm = exports.alert = exports.toast = exports.hideDialog = exports.showDialog = exports.buttonOnClick = void 0;
+exports.fileToBase64 = exports.imageFileToBase64 = exports.loadImageConfig = exports.renderImage = exports.generateImageBase64 = exports.dialogConfig = exports.confirm = exports.alert = exports.toast = exports.hideDialog = exports.showDialog = exports.buttonOnClick = void 0;
 var buttonOnClick_1 = __webpack_require__(/*! ./buttonOnClick */ "./out/buttonOnClick.js");
 Object.defineProperty(exports, "buttonOnClick", { enumerable: true, get: function () { return buttonOnClick_1.buttonOnClick; } });
 var dialog_1 = __webpack_require__(/*! ./dialog */ "./out/dialog.js");
@@ -1567,134 +1619,7 @@ Object.defineProperty(exports, "renderImage", { enumerable: true, get: function 
 Object.defineProperty(exports, "loadImageConfig", { enumerable: true, get: function () { return image_1.loadImageConfig; } });
 Object.defineProperty(exports, "imageFileToBase64", { enumerable: true, get: function () { return image_1.imageFileToBase64; } });
 Object.defineProperty(exports, "fileToBase64", { enumerable: true, get: function () { return image_1.fileToBase64; } });
-var less_1 = __webpack_require__(/*! ./less */ "./out/less.js");
-Object.defineProperty(exports, "Less", { enumerable: true, get: function () { return less_1.Less; } });
 
-
-/***/ }),
-
-/***/ "./out/less.js":
-/*!*********************!*\
-  !*** ./out/less.js ***!
-  \*********************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Less = void 0;
-const less = __webpack_require__(/*! less */ "less");
-const errors_1 = __webpack_require__(/*! ./errors */ "./out/errors.js");
-class Less {
-    static pathname(url) {
-        let el = document.createElement('a');
-        el.href = url;
-        return el.pathname;
-    }
-    static load(url, options) {
-        return __awaiter(this, void 0, void 0, function* () {
-            options = options || {};
-            let { wrapperClassName, name } = options;
-            if (!options.baseUrl) {
-                let { protocol, host } = location;
-                let pathname = Less.pathname(url);
-                console.assert(pathname[0] == "/");
-                options.baseUrl = `${protocol}//${host}${pathname}`;
-            }
-            let res = yield fetch(url);
-            let text = yield res.text();
-            if (wrapperClassName) {
-                text = `.${wrapperClassName} {${text}}`;
-            }
-            Less.renderByText(text, options);
-        });
-    }
-    static renderByRequireJS(moduleName, options) {
-        return __awaiter(this, void 0, void 0, function* () {
-            options = options || {};
-            let req;
-            if (options.contextName) {
-                req = requirejs({ context: options.contextName });
-            }
-            else {
-                req = requirejs;
-            }
-            req([`text!${moduleName}`], function (str) {
-                console.assert(str);
-                Less.renderByText(str, options);
-            });
-        });
-    }
-    static renderByText(lessText, options) {
-        return __awaiter(this, void 0, void 0, function* () {
-            if (!lessText)
-                throw errors_1.errors.argumentNull("lessText");
-            if (typeof lessText != "string")
-                throw errors_1.errors.argumentTypeIncorrect("lessText", "string");
-            options = options || {};
-            if (options.baseUrl) {
-                let extractUrlParts = less.FileManager.prototype.extractUrlParts;
-                less.FileManager.prototype.extractUrlParts = function (url) {
-                    return extractUrlParts.apply(less, [url, options.baseUrl]);
-                };
-            }
-            less.render(lessText, function (e, result) {
-                if (e) {
-                    console.error(e);
-                    return;
-                }
-                let styleElement = null;
-                let name = options.name;
-                if (name) {
-                    console.assert(document.head != null);
-                    let head = document.head;
-                    styleElement = head.querySelector(`style[data-name="${name}"]`);
-                }
-                if (styleElement == null) {
-                    styleElement = document.createElement('style');
-                    document.head.appendChild(styleElement);
-                    if (name)
-                        styleElement.setAttribute("data-name", name);
-                }
-                styleElement.innerText = result.css;
-            });
-        });
-    }
-    static parse(lessText) {
-        return new Promise((resolve, reject) => {
-            less.render(lessText, function (e, result) {
-                if (e) {
-                    reject(e);
-                    return;
-                }
-                resolve(result.css);
-            });
-        });
-    }
-}
-exports.Less = Less;
-
-
-/***/ }),
-
-/***/ "less":
-/*!***********************!*\
-  !*** external "less" ***!
-  \***********************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE_less__;
 
 /***/ })
 
