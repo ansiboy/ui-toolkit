@@ -116,9 +116,8 @@ const alertElementId = "AA0321E3-B2E4-4971-99D8-BF2FF66748F2";
 let alertElement = document.getElementById(alertElementId);
 if (alertElement == null) {
     alertElement = document.createElement('div');
-    alertElement.id = alertElementId;
     alertElement.className = 'modal fade';
-    
+    alertElement.id = alertElementId;
     dialogContainer().appendChild(alertElement);
     alertElement.innerHTML = `
         <div class="modal-dialog">
@@ -177,7 +176,7 @@ if (confirmDialogElment == null) {
     confirmDialogElment.className = 'modal fade';
     confirmDialogElment.style.marginTop = '20px'
     console.assert(dialogContainer != null, 'dialog container is null');
-
+    //confirmDialogElment.style.display="none";
     confirmDialogElment.innerHTML = `
     <div class="modal-dialog">
         <div class="modal-content">
@@ -253,7 +252,7 @@ export function confirm(args: {
         cancel()
             .then(() => hideDialog(confirmDialogElment))
             .then(() => {
-                confirmDialogElment.remove();
+                confirmDialogElment.style.display="none";
             })
     }
 
@@ -261,7 +260,7 @@ export function confirm(args: {
         execute(event)
             .then(() => hideDialog(confirmDialogElment))
             .then(() => {
-                confirmDialogElment.remove();
+                confirmDialogElment.style.display="none";
             })
             .catch(() => hideDialog(confirmDialogElment));
     }
