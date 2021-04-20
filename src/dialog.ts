@@ -112,7 +112,7 @@ function findDialogElement(e: HTMLElement) {
 }
 
 
-const alertElementId = "AA0321E3-B2E4-4971-99D8-BF2FF66748F2";
+export const alertElementId = "UiToolkitAlertId";
 let alertElement = document.getElementById(alertElementId);
 if (alertElement == null) {
     alertElement = document.createElement('div');
@@ -168,11 +168,11 @@ export function alert(args: string | {
 
 }
 
-const elementId = "C3139D58-75F7-47B2-AEC4-76C3658848A0";
-let confirmDialogElment: HTMLElement = document.getElementById(elementId);
+export const confirmElementId = "UiToolkitConfirmId";
+let confirmDialogElment: HTMLElement = document.getElementById(confirmElementId);
 if (confirmDialogElment == null) {
     confirmDialogElment = document.createElement('div');
-    confirmDialogElment.id = elementId;
+    confirmDialogElment.id = confirmElementId;
     confirmDialogElment.className = 'modal fade';
     confirmDialogElment.style.marginTop = '20px'
     console.assert(dialogContainer != null, 'dialog container is null');
@@ -252,7 +252,7 @@ export function confirm(args: {
         cancel()
             .then(() => hideDialog(confirmDialogElment))
             .then(() => {
-                confirmDialogElment.style.display="none";
+                confirmDialogElment.style.display = "none";
             })
     }
 
@@ -260,7 +260,7 @@ export function confirm(args: {
         execute(event)
             .then(() => hideDialog(confirmDialogElment))
             .then(() => {
-                confirmDialogElment.style.display="none";
+                confirmDialogElment.style.display = "none";
             })
             .catch(() => hideDialog(confirmDialogElment));
     }
