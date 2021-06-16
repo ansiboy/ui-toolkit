@@ -1,8 +1,8 @@
 {
   "name": "maishu-ui-toolkit",
-  "version": "1.14.0",
+  "version": "1.16.0",
   "description": "",
-  "main": "./dist/index.js",
+  "main": "./out/index.js",
   "types": "./out/index.d.ts",
   "scripts": {
     "build": "grunt"

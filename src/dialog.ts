@@ -113,32 +113,38 @@ function findDialogElement(e: HTMLElement) {
 
 
 export const alertElementId = "UiToolkitAlertId";
-let alertElement = document.getElementById(alertElementId);
-if (alertElement == null) {
-    alertElement = document.createElement('div');
-    alertElement.className = 'modal fade';
-    alertElement.id = alertElementId;
-    dialogContainer().appendChild(alertElement);
-    alertElement.innerHTML = `
-        <div class="modal-dialog">
-            
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="btn close" data-dismiss="modal">
-                        <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-                    </button>
-                    <h4 class="modal-title"></h4>
-                </div>
-                <div class="modal-body">
-                    <h5></h5>
-                </div>
-                <div class="modal-footer">
-                    <button name="ok" type="button" class="btn btn-primary">
-                    </button>
+
+
+function getAlertElement() {
+    let alertElement = document.getElementById(alertElementId);
+    if (alertElement == null) {
+        alertElement = document.createElement('div');
+        alertElement.className = 'modal fade';
+        alertElement.id = alertElementId;
+        dialogContainer().appendChild(alertElement);
+        alertElement.innerHTML = `
+            <div class="modal-dialog">
+                
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="btn close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                        </button>
+                        <h4 class="modal-title"></h4>
+                    </div>
+                    <div class="modal-body">
+                        <h5></h5>
+                    </div>
+                    <div class="modal-footer">
+                        <button name="ok" type="button" class="btn btn-primary">
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
-    `;
+        `;
+    }
+
+    return alertElement;
 }
 
 
@@ -152,6 +158,7 @@ export function alert(args: string | {
         args = { title: '&nbsp;', message: args }
     }
 
+    let alertElement = getAlertElement();
     showDialog(alertElement);
 
     let titleElement = alertElement.querySelector('.modal-title');
@@ -169,41 +176,6 @@ export function alert(args: string | {
 }
 
 export const confirmElementId = "UiToolkitConfirmId";
-let confirmDialogElment: HTMLElement = document.getElementById(confirmElementId);
-if (confirmDialogElment == null) {
-    confirmDialogElment = document.createElement('div');
-    confirmDialogElment.id = confirmElementId;
-    confirmDialogElment.className = 'modal fade';
-    confirmDialogElment.style.marginTop = '20px'
-    console.assert(dialogContainer != null, 'dialog container is null');
-    //confirmDialogElment.style.display="none";
-    confirmDialogElment.innerHTML = `
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="btn close" data-dismiss="modal">
-                    <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-                </button>
-                <h4 class="modal-title">确认</h4>
-            </div>
-            <div class="modal-body form-horizontal">
-               
-            </div>
-            <div class="modal-footer">
-                <button name="cancel" type="button" class="btn btn-default">
-       
-                </button>
-                <button name="ok" type="button" class="btn btn-primary">
-    
-                </button>
-            </div>
-        </div>
-    </div>
-`;
-
-    dialogContainer().appendChild(confirmDialogElment);
-}
-
 export function confirm(args: {
     title?: string, message: string, cancle?: () => Promise<any>,
     confirm: (event: Event) => Promise<any>,
@@ -226,7 +198,7 @@ export function confirm(args: {
         message = args.message;
     }
 
-
+    let confirmDialogElment = getConfirmDialogElment();
     let cancelElement = confirmDialogElment.querySelector('[name="cancel"]');
     cancelElement.innerHTML = cancelText;
 
@@ -266,6 +238,45 @@ export function confirm(args: {
     }
 
     showDialog(confirmDialogElment);
+}
+
+function getConfirmDialogElment() {
+    let confirmDialogElment: HTMLElement = document.getElementById(confirmElementId);
+    if (confirmDialogElment == null) {
+        confirmDialogElment = document.createElement('div');
+        confirmDialogElment.id = confirmElementId;
+        confirmDialogElment.className = 'modal fade';
+        confirmDialogElment.style.marginTop = '20px'
+        console.assert(dialogContainer != null, 'dialog container is null');
+        //confirmDialogElment.style.display="none";
+        confirmDialogElment.innerHTML = `
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title">确认</h4>
+                </div>
+                <div class="modal-body form-horizontal">
+                   
+                </div>
+                <div class="modal-footer">
+                    <button name="cancel" type="button" class="btn btn-default">
+           
+                    </button>
+                    <button name="ok" type="button" class="btn btn-primary">
+        
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+
+        dialogContainer().appendChild(confirmDialogElment);
+    }
+
+    return confirmDialogElment;
 }
 
 type ToastOptions = { title?: string, message: string }
@@ -331,115 +342,4 @@ export function toast(obj: ToastOptions | ToastMessage) {
     }, 500);
 }
 
-export let showPanel = (function () {
-    let panel = document.createElement('div');
-    panel.className = 'mobile-page panel';
-    panel.style.display = 'none';
-
-    document.body.appendChild(panel);
-    panel.innerHTML = `
-            <div class="modal">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-    
-                        </div>
-                        <div class="modal-body">
-    
-                        </div>
-                        <div class="modal-footer">
-    
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-backdrop in">
-            </div>
-        `;
-
-    let modal = panel.querySelector('.modal') as HTMLElement;
-    let backdrop = panel.querySelector('.modal-backdrop') as HTMLElement;
-    let header = panel.querySelector('.modal-header') as HTMLElement;
-    let footer = panel.querySelector('.modal-footer') as HTMLElement;
-
-    let body = panel.querySelector(".modal-body") as HTMLElement;
-    let modalDialog = panel.querySelector(".modal-dialog") as HTMLElement;
-
-    let isIOS = navigator.userAgent.indexOf('iPhone') > 0 || navigator.userAgent.indexOf('iPad') > 0
-
-    //=====================================================================
-    // 点击非窗口区域，关窗口。并禁用上级元素的 touch 操作。
-    // let panel = this.panel; //this.refs['panel'] as HTMLElement;
-    // let modalDialog = this.modalDialog; //this.refs['modalDialog'] as HTMLElement;
-    panel.addEventListener('touchstart', (event: TouchEvent) => {
-        let dialogRect = modalDialog.getBoundingClientRect();
-        for (let i = 0; i < event.touches.length; i++) {
-            let { clientX } = event.touches[i];
-            if (clientX < dialogRect.left) {
-                hide();
-                return;
-            }
-        }
-    });
-
-    if (isIOS) {
-        panel.addEventListener('touchstart', (event) => {
-            let tagName = (event.target as HTMLElement).tagName;
-            if (tagName == 'BUTTON' || tagName == 'INPUT' || tagName == 'A') {
-                return;
-            }
-            event.stopPropagation();
-            event.preventDefault();
-        });
-    }
-
-    function hide() {
-        modal.style.removeProperty('transform');
-        backdrop.style.opacity = '0';
-        window.setTimeout(() => {
-            panel.style.display = 'none';
-        }, 500);
-    }
-
-    return function showPanel(args: {
-        /** render header */
-        header?: (headerElement: HTMLElement) => void,
-        /** render body */
-        body?: (bodyElement: HTMLElement) => void,
-        /** render footer */
-        footer?: (footerElement: HTMLElement) => void
-    }) {
-        args = args || {};
-        panel.style.display = 'block';
-        modal.style.display = 'block';
-
-        setTimeout(() => {
-            modal.style.transform = 'translateX(0)';
-            backdrop.style.opacity = '0.5';
-        }, 50);
-
-        let setBodyHeight = () => {
-            let headerHeight = header.getBoundingClientRect().height;
-            let footerHeight = footer.getBoundingClientRect().height;
-            let bodyHeight = window.innerHeight - headerHeight - footerHeight;
-            body.style.height = `${bodyHeight}px`;
-        };
-
-        window.addEventListener('resize', () => setBodyHeight());
-        setBodyHeight();
-
-        if (args.header)
-            args.header(header);
-
-        if (args.body)
-            args.body(body);
-
-        if (args.footer)
-            args.footer(footer);
-
-        return {
-            hide: () => hide()
-        }
-    }
-})();
 
