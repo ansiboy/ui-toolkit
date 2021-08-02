@@ -6,7 +6,12 @@ function dialogContainer(): HTMLElement {
 }
 
 export let dialogConfig = {
-    dialogContainer: null as HTMLElement
+    dialogContainer: null as HTMLElement,
+    strings: {
+        confirm: "确定",
+        cancel: "取消",
+        ok: "确定"
+    }
 }
 
 function addClassName(element: HTMLElement, className: string) {
@@ -150,9 +155,8 @@ function getAlertElement() {
 
 export function alert(args: string | {
     title: string, message: string,
-    confirmText?: string
+    okText?: string
 }) {
-
 
     if (typeof args == 'string') {
         args = { title: '&nbsp;', message: args }
@@ -170,12 +174,11 @@ export function alert(args: string | {
     let modalFooter = alertElement.querySelector('.modal-footer');
 
     let okButton = modalFooter.querySelector('[name="ok"]') as HTMLButtonElement;
-    okButton.innerHTML = args.confirmText || "确定";
+    okButton.innerHTML = args.okText || dialogConfig.strings.ok;
     okButton.onclick = () => hideDialog(alertElement);
 
 }
 
-export const confirmElementId = "UiToolkitConfirmId";
 export function confirm(args: {
     title?: string, message: string, cancle?: () => Promise<any>,
     confirm: (event: Event) => Promise<any>,
@@ -188,8 +191,8 @@ export function confirm(args: {
     let execute = args.confirm;
     let cancel = args.cancle || (() => Promise.resolve());
     let container = args.container || document.body;
-    let confirmText = args.confirmText || '确定'
-    let cancelText = args.cancelText || '取消'
+    let confirmText = args.confirmText || dialogConfig.strings.confirm;
+    let cancelText = args.cancelText || dialogConfig.strings.cancel;
     if (typeof args == 'string') {
         message = args;
     }
@@ -240,6 +243,7 @@ export function confirm(args: {
     showDialog(confirmDialogElment);
 }
 
+export const confirmElementId = "UiToolkitConfirmId";
 function getConfirmDialogElment() {
     let confirmDialogElment: HTMLElement = document.getElementById(confirmElementId);
     if (confirmDialogElment == null) {
