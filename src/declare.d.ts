@@ -13,3 +13,5 @@ declare module "less" {
 
 	export = less;
 }
+
+declare let require: Function;

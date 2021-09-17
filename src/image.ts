@@ -48,9 +48,17 @@ let draws = {
 export function generateImageBase64(width: number, height: number, text: string, options?: DrawOption): string
 export function generateImageBase64(width: number, height: number, draw: CanvasDraw): string
 export function generateImageBase64(width: number, height: number, obj: CanvasDraw | string, options?: DrawOption): string {
-    var canvas = document.createElement('canvas');
-    canvas.width = width; //img_width;
-    canvas.height = height; //img_height;
+
+    var canvas: HTMLCanvasElement;
+    if (typeof document != "undefined") {
+        canvas = document.createElement('canvas');
+        canvas.width = width; //img_width;
+        canvas.height = height; //img_height;
+    }
+    else {
+        canvas = require("node-canvas").createCanvas(width, height);
+    }
+
     var ctx = canvas.getContext('2d');
     let draw = typeof obj == 'string' ? draws.text(obj, options) : obj;
     draw(ctx, width, height)
@@ -77,7 +85,7 @@ export function renderImage(element: HTMLImageElement, options?: LoadImageOption
     options = options || {};
     if (!element) throw errors.argumentNull('element');
 
-    let imageUrl = element.src || '';
+    let imageUrl = element.getAttribute("data-src") || element.src || '';
     if (imageUrl.indexOf('data:image/png;base64') == 0 || element['rendered']) {
         return;
     }

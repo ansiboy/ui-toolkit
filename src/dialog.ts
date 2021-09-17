@@ -120,13 +120,15 @@ function findDialogElement(e: HTMLElement) {
 export const alertElementId = "UiToolkitAlertId";
 
 
-function getAlertElement() {
+function getAlertElement(container: HTMLElement) {
     let alertElement = document.getElementById(alertElementId);
     if (alertElement == null) {
         alertElement = document.createElement('div');
         alertElement.className = 'modal fade';
         alertElement.id = alertElementId;
-        dialogContainer().appendChild(alertElement);
+
+        container = container || dialogContainer();
+        container.appendChild(alertElement);
         alertElement.innerHTML = `
             <div class="modal-dialog">
                 
@@ -154,7 +156,7 @@ function getAlertElement() {
 
 
 export function alert(args: string | {
-    title: string, message: string,
+    title: string, message: string, container?: HTMLElement,
     okText?: string
 }) {
 
@@ -162,7 +164,7 @@ export function alert(args: string | {
         args = { title: '&nbsp;', message: args }
     }
 
-    let alertElement = getAlertElement();
+    let alertElement = getAlertElement(args.container);
     showDialog(alertElement);
 
     let titleElement = alertElement.querySelector('.modal-title');
@@ -179,20 +181,23 @@ export function alert(args: string | {
 
 }
 
-export function confirm(args: {
-    title?: string, message: string, cancle?: () => Promise<any>,
+export type ConfirmArguments = {
+    title?: string, message: string,
+    cancle?: () => Promise<any>,
     confirm: (event: Event) => Promise<any>,
     container?: HTMLElement,
-    confirmText?: string,
-    cancelText?: string
-}) {
+    confirmButtonText?: string,
+    cancelButtonText?: string
+}
+
+export function confirm(args: ConfirmArguments) {
     let title: string;
     let message: string;
     let execute = args.confirm;
     let cancel = args.cancle || (() => Promise.resolve());
     let container = args.container || document.body;
-    let confirmText = args.confirmText || dialogConfig.strings.confirm;
-    let cancelText = args.cancelText || dialogConfig.strings.cancel;
+    let confirmText = args.confirmButtonText || dialogConfig.strings.confirm;
+    let cancelText = args.cancelButtonText || dialogConfig.strings.cancel;
     if (typeof args == 'string') {
         message = args;
     }
@@ -201,7 +206,7 @@ export function confirm(args: {
         message = args.message;
     }
 
-    let confirmDialogElment = getConfirmDialogElment();
+    let confirmDialogElment = getConfirmDialogElment(container);
     let cancelElement = confirmDialogElment.querySelector('[name="cancel"]');
     cancelElement.innerHTML = cancelText;
 
@@ -244,12 +249,14 @@ export function confirm(args: {
 }
 
 export const confirmElementId = "UiToolkitConfirmId";
-function getConfirmDialogElment() {
-    let confirmDialogElment: HTMLElement = document.getElementById(confirmElementId);
+function getConfirmDialogElment(container: HTMLElement | undefined) {
+    container = container || document.body;
+    const ConfirmDialogClassName = "confirm-dialog";
+    let confirmDialogElment: HTMLElement = container.querySelector(ConfirmDialogClassName);//document.getElementById(confirmElementId);
     if (confirmDialogElment == null) {
         confirmDialogElment = document.createElement('div');
         confirmDialogElment.id = confirmElementId;
-        confirmDialogElment.className = 'modal fade';
+        confirmDialogElment.className = `${ConfirmDialogClassName} modal fade`;
         confirmDialogElment.style.marginTop = '20px'
         console.assert(dialogContainer != null, 'dialog container is null');
         //confirmDialogElment.style.display="none";
@@ -277,13 +284,17 @@ function getConfirmDialogElment() {
         </div>
     `;
 
-        dialogContainer().appendChild(confirmDialogElment);
+        container = container || dialogContainer();
+        container.appendChild(confirmDialogElment);
     }
 
     return confirmDialogElment;
 }
 
-type ToastOptions = { title?: string, message: string }
+export type ToastOptions = {
+    title?: string, message: string,
+    container?: HTMLElement,
+}
 type ToastMessage = string | HTMLElement | (() => string)
 export let showToastMessage = toast;
 export function toast(options: ToastOptions)
@@ -292,11 +303,13 @@ export function toast(obj: ToastOptions | ToastMessage) {
     if (obj == null) throw errors.argumentNull('obj')
     let msg: ToastMessage
     let title: string
+    let container: HTMLElement
     if (typeof obj == 'object') {
         if ((obj as HTMLElement).tagName == null) {
             let options = obj as ToastOptions
             msg = options.message
             title = options.title
+            container = options.container
         }
         else {
             msg = obj as HTMLElement
@@ -306,12 +319,12 @@ export function toast(obj: ToastOptions | ToastMessage) {
         msg = obj
     }
 
-    let dialogContainer: HTMLElement = dialogConfig.dialogContainer || document.body;
+    container = container || dialogContainer();//dialogConfig.dialogContainer || document.body;
     let toastDialogElement = document.createElement('div');
     toastDialogElement.className = 'modal fade in';
     toastDialogElement.style.marginTop = '20px';
-    console.assert(dialogContainer != null, 'dialog container is null.');
-    dialogContainer.appendChild(toastDialogElement);
+    console.assert(container != null, 'dialog container is null.');
+    container.appendChild(toastDialogElement);
 
     let header = title ? `<div class="modal-header">
                                     <h4 class="modal-title">${title}</h4>

@@ -1,9 +1,11 @@
-import { toast, confirm } from "./dialog";
+import { toast, confirm, ToastOptions } from "./dialog";
 
+type ConfirmText = string | (() => string);
 export type Callback = (event: MouseEvent) => Promise<any>;
 export type ClickArguments = {
-    confirm?: string | (() => string),
-    toast?: string | (() => string) | HTMLElement
+    confirm?: ConfirmText | { text: ConfirmText, container?: HTMLElement },
+    toast?: string | (() => string),
+    dialogContainer?: HTMLElement,
 };
 
 export function buttonOnClick(callback: Callback, args?: ClickArguments): (event: Event) => void;
@@ -32,6 +34,10 @@ export function buttonOnClick(arg1: any, arg2: any, arg3?: ClickArguments): (eve
         try {
             await callback(event);
             if (args.toast) {
+                let message = typeof args.toast == "string" ? args.toast : args.toast();
+                // let toastOptions: ToastOptions = {
+
+                // }
                 toast(args.toast);
             }
         }
@@ -54,10 +60,27 @@ export function buttonOnClick(arg1: any, arg2: any, arg3?: ClickArguments): (eve
             return;
         }
 
-        let text = typeof args.confirm == 'string' ?
-            args.confirm :
-            args.confirm();
-        confirm({ message: text, confirm: (event) => execute(event) });
+        let confirmText: ConfirmText;
+        let container: HTMLElement;
+
+        if (typeof args.confirm == "object") {
+            confirmText = args.confirm.text;
+            container = args.confirm.container;
+        }
+        else {
+            confirmText = args.confirm;
+        }
+
+        let text: string;
+        if (confirmText) {
+            text = typeof confirmText == "string" ? confirmText : confirmText();
+        }
+
+
+        confirm({
+            message: text || "", confirm: (event) => execute(event),
+            container: container
+        });
     }
     if (element)
         element.onclick = result;

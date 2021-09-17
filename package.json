@@ -1,38 +1,39 @@
 {
-  "name": "maishu-ui-toolkit",
-  "version": "1.19.0",
-  "description": "",
-  "main": "./out/index.js",
-  "types": "./out/index.d.ts",
-  "scripts": {
-    "build": "grunt"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ansiboy/ui-toolkit.git"
-  },
-  "author": "",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/ansiboy/ui-toolkit/issues"
-  },
-  "homepage": "https://github.com/ansiboy/ui-toolkit#readme",
-  "devDependencies": {
-    "@babel/core": "^7.4.4",
-    "@babel/preset-env": "^7.4.4",
-    "grunt": "^1.3.0",
-    "grunt-babel": "^8.0.0",
-    "grunt-shell": "^2.1.0",
-    "grunt-webpack": "^3.1.3",
-    "load-grunt-tasks": "^4.0.0",
-    "webpack": "^4.30.0",
-    "webpack-cli": "^3.3.0"
-  },
-  "dependencies": {
-    "maishu-toolkit": "^1.6.3"
-  },
-  "files": [
-    "dist",
-    "out"
-  ]
+    "name": "maishu-ui-toolkit",
+    "version": "1.21.0",
+    "description": "",
+    "main": "./out/index.js",
+    "types": "./out/index.d.ts",
+    "scripts": {
+        "build": "grunt"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ansiboy/ui-toolkit.git"
+    },
+    "author": "",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/ansiboy/ui-toolkit/issues"
+    },
+    "homepage": "https://github.com/ansiboy/ui-toolkit#readme",
+    "devDependencies": {
+        "@babel/core": "^7.4.4",
+        "@babel/preset-env": "^7.4.4",
+        "grunt": "^1.3.0",
+        "grunt-babel": "^8.0.0",
+        "grunt-shell": "^2.1.0",
+        "grunt-webpack": "^3.1.3",
+        "load-grunt-tasks": "^4.0.0",
+        "webpack": "^4.30.0",
+        "webpack-cli": "^3.3.0"
+    },
+    "dependencies": {
+        "maishu-toolkit": "^1.6.3",
+        "node-canvas": "^2.7.0"
+    },
+    "files": [
+        "dist",
+        "out"
+    ]
 }
