@@ -36,9 +36,15 @@ let draws = {
             // 设置填充颜色
             ctx.fillStyle = options.textColor; //"#999";
 
-            let textWidth = fontSize * imageText.length;
-            let startX = Math.floor((canvasWidth - textWidth) * 0.5);
-            let startY = Math.floor((canvasHeight - options.fontSize) * 0.3);
+            let startX = 0;
+            let startY = 0;
+            if (imageText) {
+                let textWidth = ctx.measureText(imageText).width;//fontSize * imageText.length;
+                startX = Math.floor((canvasWidth - textWidth) * 0.5);
+                // startY = Math.floor((canvasHeight - options.fontSize) * 0.3);
+                startY = (canvasHeight - ctx.measureText(imageText).actualBoundingBoxDescent) / 2 + 9
+            }
+
             // 设置字体内容，以及在画布上的位置
             ctx.fillText(imageText, startX, Math.floor(canvasHeight * 0.6));
         }
@@ -56,7 +62,16 @@ export function generateImageBase64(width: number, height: number, obj: CanvasDr
         canvas.height = height; //img_height;
     }
     else {
-        canvas = require("node-canvas").createCanvas(width, height);
+        try {
+            let canvasModule = require("canvas");
+            canvas = canvasModule.createCanvas(width, height);
+        }
+        catch (err: any) {
+            if (err.code == "MODULE_NOT_FOUND") {
+                throw errors.canvasModuleRequired();
+            }
+            throw err;
+        }
     }
 
     var ctx = canvas.getContext('2d');

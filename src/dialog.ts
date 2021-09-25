@@ -5,13 +5,31 @@ function dialogContainer(): HTMLElement {
     return dialogConfig.dialogContainer || document.body;
 }
 
-export let dialogConfig = {
+interface DialogConfig {
+    dialogContainer: HTMLElement,
+    strings: {
+        confirm: string,
+        cancel: string,
+        ok: string
+    }
+}
+
+export let dialogConfig: DialogConfig = null;
+
+let defaultDialogConfig: DialogConfig = {
     dialogContainer: null as HTMLElement,
     strings: {
         confirm: "确定",
         cancel: "取消",
         ok: "确定"
     }
+}
+
+if (typeof window != "undefined") {
+    dialogConfig = window["dialogContainer"] = window["dialogContainer"] || defaultDialogConfig;
+}
+else {
+    dialogConfig = defaultDialogConfig
 }
 
 function addClassName(element: HTMLElement, className: string) {
@@ -186,7 +204,7 @@ export type ConfirmArguments = {
     cancle?: () => Promise<any>,
     confirm: (event: Event) => Promise<any>,
     container?: HTMLElement,
-    confirmButtonText?: string,
+    okButtonText?: string,
     cancelButtonText?: string
 }
 
@@ -196,7 +214,7 @@ export function confirm(args: ConfirmArguments) {
     let execute = args.confirm;
     let cancel = args.cancle || (() => Promise.resolve());
     let container = args.container || document.body;
-    let confirmText = args.confirmButtonText || dialogConfig.strings.confirm;
+    let okText = args.okButtonText || dialogConfig.strings.ok;
     let cancelText = args.cancelButtonText || dialogConfig.strings.cancel;
     if (typeof args == 'string') {
         message = args;
@@ -211,7 +229,7 @@ export function confirm(args: ConfirmArguments) {
     cancelElement.innerHTML = cancelText;
 
     let okElement = confirmDialogElment.querySelector('[name="ok"]');
-    okElement.innerHTML = confirmText;
+    okElement.innerHTML = okText;
 
     let modalHeader = confirmDialogElment.querySelector('.modal-header');
     let modalBody = confirmDialogElment.querySelector('.modal-body');
