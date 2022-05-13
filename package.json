@@ -1,6 +1,6 @@
 {
     "name": "maishu-ui-toolkit",
-    "version": "1.26.0",
+    "version": "1.29.0",
     "description": "",
     "main": "./out/index.js",
     "types": "./out/index.d.ts",
@@ -29,11 +29,11 @@
         "webpack-cli": "^3.3.0"
     },
     "dependencies": {
-        "maishu-toolkit": "^1.6.3",
-        "node-canvas": "^2.7.0"
+        "maishu-toolkit": "^1.10.1"
     },
     "files": [
         "dist",
-        "out"
+        "out",
+        "src"
     ]
 }

@@ -14,4 +14,4 @@ declare module "less" {
 	export = less;
 }
 
-declare let require: Function;
+// declare let require: Function;
